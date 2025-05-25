@@ -15,11 +15,7 @@ async function kalenuxer() {
     var current_dir = path.resolve().split('\\').join('/');
 
     if (project !== 'main') {
-<<<<<<< HEAD
         var project_dir = path.join(current_dir, 'websites', project) + '\\';
-=======
-        var project_dir = current_dir.split('/').slice(0, current_dir.length).join('/') + '/websites/' + project + '/';
->>>>>>> f9fdf38e588e5d479d000ce70e02cb910c3f5850
     } else {
         var project_dir = current_dir.split('/').slice(0, current_dir.length).join('/') + '/controller/';
     }
@@ -56,11 +52,7 @@ async function kalenuxer() {
             base = 'release';
             break;
         default:
-<<<<<<< HEAD
             base = 'release';
-=======
-            base = 'test';
->>>>>>> f9fdf38e588e5d479d000ce70e02cb910c3f5850
             break;
     }
 
@@ -76,22 +68,12 @@ async function kalenuxer() {
                 times = ['css', 'js', 'html', 'schemes', 'template', 'api'];
                 for (time in times) {
                     time = times[time];
-<<<<<<< HEAD
                     fs.writeFileSync(project_dir + '/store/times/' + base + '/' + time + '.json', '{}');
-=======
-                    if (fs.existsSync(project_dir + '/store/times/' + base + '/' + time + '.json')) {
-                        fs.unlinkSync(project_dir + '/store/times/' + base + '/' + time + '.json');
-                    }
->>>>>>> f9fdf38e588e5d479d000ce70e02cb910c3f5850
                 }
                 break;
             case '--new':
                 var the_time, time, times;
-<<<<<<< HEAD
                 times = ['css', 'js', 'html', 'schemes', 'template', 'api','plugins',"img"];
-=======
-                times = ['css', 'js', 'html', 'schemes', 'template', 'api'];
->>>>>>> f9fdf38e588e5d479d000ce70e02cb910c3f5850
                 the_time = args[i + 1];
                 if (!the_time) {
                     exitKalenuxer('Specify a time type');
@@ -99,13 +81,7 @@ async function kalenuxer() {
                 for (time in times) {
                     time = times[time];
                     if (the_time === time) {
-<<<<<<< HEAD
                         fs.writeFileSync(project_dir + '/store/times/' + base + '/' + time + '.json', '{}');
-=======
-                        if (fs.existsSync(project_dir + '/store/times/' + base + '/' + time + '.json')) {
-                            fs.unlinkSync(project_dir + '/store/times/' + base + '/' + time + '.json');
-                        }
->>>>>>> f9fdf38e588e5d479d000ce70e02cb910c3f5850
                     }
                 }
                 i += 1;
@@ -132,11 +108,7 @@ async function kalenuxer() {
     switch (method) {
         case 'release':
             await processKalenuxer();
-<<<<<<< HEAD
             await releaseKalenuxer(); 
-=======
-            await releaseKalenuxer();
->>>>>>> f9fdf38e588e5d479d000ce70e02cb910c3f5850
             break;
         case 'prepare':
             await processKalenuxer();
