@@ -1,0 +1,23 @@
+{
+    "name": "kalenuxer",
+    "version": "1.0.0",
+    "description": "Website builder application",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@google-cloud/translate": "^7.0.3",
+        "csso": "^5.0.2",
+        "fs": "",
+        "fs-extra": "",
+        "gulp": "",
+        "gulp-iconfont": "",
+        "gulp-util": "",
+        "path": "",
+        "uglify-js": "^3.15.2",
+        "vinyl-ftp": ""
+    }
+}
