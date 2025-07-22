@@ -5,6 +5,7 @@ import path from "path";
 import { closeKalenuxer, exitKalenuxer } from "./lib/general/adjustments.js";
 import { processKalenuxer } from "./lib/prepare/main.js";
 import { releaseKalenuxer } from "./lib/release/main.js";
+import { startDevServer } from "./lib/general/dev_server.js";
 
 async function kalenuxer() {
     var args = process.argv.slice(2);
@@ -39,6 +40,9 @@ async function kalenuxer() {
         case 'backup':
             fse.copySync(project_dir, 'backups/all/' + project + '/' + new Date().getTime()) + '/';
             closeKalenuxer('All files backuped');
+        case 'dev':
+            method = 'dev';
+            break;
         default:
             exitKalenuxer('Command is not exist');
     }
@@ -50,7 +54,7 @@ async function kalenuxer() {
             break;
         case 'release':
             base = 'release';
-            break;
+            break; 
         default:
             base = 'release';
             break;
@@ -73,7 +77,7 @@ async function kalenuxer() {
                 break;
             case '--new':
                 var the_time, time, times;
-                times = ['css', 'js', 'html', 'schemes', 'template', 'api','plugins',"img"];
+                times = ['css', 'js', 'html', 'schemes', 'template', 'api', 'plugins', "img"];
                 the_time = args[i + 1];
                 if (!the_time) {
                     exitKalenuxer('Specify a time type');
@@ -108,13 +112,21 @@ async function kalenuxer() {
     switch (method) {
         case 'release':
             await processKalenuxer();
-            await releaseKalenuxer(); 
+            await releaseKalenuxer();
             break;
         case 'prepare':
             await processKalenuxer();
             break;
         case 'upload':
             await releaseKalenuxer();
+            break;
+        case 'dev':
+            const previewRoot = path.join(project_dir);
+            await startDevServer({
+                projectRoot: previewRoot,
+                port: 3000,
+                openBrowser: true,
+            });
             break;
         default:
             exitKalenuxer('Command is not exist');

@@ -10,12 +10,17 @@
     "license": "ISC",
     "dependencies": {
         "@google-cloud/translate": "^7.0.3",
+        "chokidar": "^4.0.3",
+        "connect-livereload": "^0.6.1",
         "csso": "^5.0.2",
+        "express": "^5.1.0",
         "fs": "",
         "fs-extra": "",
         "gulp": "",
         "gulp-iconfont": "",
         "gulp-util": "",
+        "livereload": "^0.9.3",
+        "open": "^10.2.0",
         "path": "",
         "uglify-js": "^3.15.2",
         "vinyl-ftp": ""
