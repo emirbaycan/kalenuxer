@@ -1,0 +1,35 @@
+.prices {
+    display: flex;
+    flex-direction: column;
+}
+
+.prices-footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.prices-header {
+    text-align: center;
+}
+
+.price {
+    margin: auto;
+    text-align: center;
+}
+
+.price-footer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.subprice {
+    padding: 0 1rem;
+}
+
+.price-header {
+    padding: 1rem 0 0;
+}
+
+#edit_price .kalenux-select {
+    margin-bottom: 1rem;
+}

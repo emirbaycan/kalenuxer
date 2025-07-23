@@ -1,0 +1,102 @@
+.kalenux-select {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    width: 100%;
+}
+
+.kalenux-options {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 100%;
+    background: #16081a;
+    width: 100%;
+    border-left: solid 1px #2f2943;
+    border-right: solid 1px #2f2943;
+    box-sizing: border-box;
+    max-height: 0px;
+    transition: 0.1s;
+    overflow: auto;
+    z-index: 999999;
+    opacity: 0;
+}
+
+.kalenux-options::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+.kalenux-options::-webkit-scrollbar-thumb {
+    background: white;
+}
+
+.kalenux-option {
+    padding: 0.25rem 0.55rem;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.kalenux-option[data-state="disabled"] {
+    display: none;
+}
+
+.kalenux-option-hidden {
+    display: none;
+}
+
+.kalenux-search {
+    background: #16081a;
+    color: #e4784f;
+    padding: 0.5rem;
+    border: solid 1px #2f2842;
+    font-size: 0.9rem;
+}
+
+.table-search {
+    display: flex;
+    height: 2.167rem;
+}
+
+.kalenux-select:hover .kalenux-options,
+.kalenux-search:focus+.kalenux-options {
+    max-height: 14rem;
+    border-bottom: solid 1px #2f2943;
+    opacity: 1;
+}
+
+.kalenux-select.closed .kalenux-options {
+    max-height: 0;
+    opacity: 0;
+}
+
+.kalenux-option:hover {
+    background: white;
+    color: #16081a !important;
+}
+
+.kalenux-option-selected {
+    color: #e4784f;
+}
+
+.kalenux-select-holder {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.kalenux-select-holder .kalenux-select-holder {
+    width: 100%;
+}
+
+.kalenux-select-holder.pop-inputs {
+    flex-direction: column;
+}
+
+.kalenux-select-holder.loaded {
+    opacity: 1;
+}

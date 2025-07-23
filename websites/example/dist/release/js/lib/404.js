@@ -1,0 +1,1 @@
+function redirectToHome(){window.location.href="/"}setTimeout(redirectToHome,1e3);

@@ -1,0 +1,61 @@
+{
+    "general": {
+        "language": "en"
+    },
+    "main": {
+        "general": {
+            "cookie_header": "We use cookies to improve our service to you. By continuing to use our website, you agree to our <a href='/sozlesmeler#kvkk-privacy-ve-cookies-policies' class='underline'>Cookies Policy</a>.",
+            "cookie_button": "Understood"
+        },
+        "pages": {
+            "general": {
+                "description": "Hello, I'm Emir Full Stack Developer",
+                "copyright": "EMIRBAYCAN ©2022"
+            },
+            "home": {
+                "page": "home",
+                "title": "Emir Baycan",
+                "home_top_header_1": "Hello, I'm <span>Emir</span>.",
+                "home_top_header_2": "Full Stack Developer.",
+                "home_top_button": "My works",
+                "_home": "Home",
+                "_about": "About",
+                "_projects": "Clients",
+                "_contact": "Contact",
+                "about_text": "I'm a Full Stack Developer making software with a passion for creation. I love bringing ideas to life and using my skills to turn visions into reality. When I'm not writing code, I enjoy lifting weights, doing self-care and learning.",
+                "live_website": "Live Website",
+                "home_projects": {
+                    "type": "data",
+                    "data": [{
+                            "description": "Eloboost website with an advanced panel"
+                        },
+                        {
+                            "description": "Education platform with colorful design"
+                        },
+                        {
+                            "description": "Prefabricated house sale site with unusual design"
+                        },
+                        {
+                            "description": "A lawyer firm website with a corporate look"
+                        },
+                        {
+                            "description": "A therapy website served by psychologists who are experts in their fields"
+                        },
+                        {
+                            "description": "A lawyer website with a corporate look"
+                        },
+                        {
+                            "description": "A successful education platform in its field"
+                        },
+                        {
+                            "description": "Website of a company that sells desserts"
+                        }
+                    ]
+                },
+                "contact_header": "Let's Connect",
+                "contact_text": "Want to work together? Contact me on any platform and let's collaborate."
+            }
+        },
+        "products": {}
+    }
+}

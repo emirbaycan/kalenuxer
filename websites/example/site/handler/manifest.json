@@ -1,0 +1,23 @@
+{
+    "manifest_version": 1,
+    "version": 1,
+    "permissions": [],
+    "app": {
+        "background": {
+            "scripts": ["/js/lib/background.js"]
+        }
+    },
+    "minimum_chrome_version": "28",
+    "name": "Hukuki Yeterlilik Akademisi",
+    "short_name": "HYA",
+    "icons": [{
+        "src": "/img/logo.png",
+        "type": "image/png",
+        "sizes": "969x969"
+    }],
+    "start_url": "/",
+    "background_color": "#16081A",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#16081A"
+}

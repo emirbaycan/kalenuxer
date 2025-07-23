@@ -1,0 +1,1 @@
+function parsePaid(o){return o?'<font class="valid-color">Ödendi</font>':'<font class="date-color">Ödeme Bekleniyor</font>'}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3001 3001"><defs><style>
+.emirbaycan-favicon-color{fill:#ec3944;stroke:#000;stroke-miterlimit:10;}
+@media (prefers-color-scheme: dark) {
+    .emirbaycan-favicon-color {
+        stroke:#fff;
+    }
+}</style></defs><g id="Layer_1-2"><g><rect class="emirbaycan-favicon-color" x=".5" y=".5" width="3000" height="3000" rx="145.57" ry="145.57"/><path d="M800.84,434.15h350.56V2566.85h-350.56V434.15Zm145.21,0h1254.1v335.89H946.06V434.15Zm0,906.47l1183.54,1.17v335.58l-1183.54-2.33v-334.43Zm0,890.34h1254.1v335.9H946.06v-335.9Z"/></g></g></svg>

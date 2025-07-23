@@ -1,0 +1,61 @@
+{
+    "general": {
+        "language": "tr"
+    },
+    "main": {
+        "general": {
+            "cookie_header": "Size verdiğimiz hizmeti daha iyi hale getirmek için çerezler kullanmaktayız. Websitemizi kullanmaya devam ederek <a href='/sozlesmeler#kvkk-gizlilik-ve-cerezler-politikalari' class='underline'>Çerezler Politikamızı</a> kabul etmiş sayılırsınız.",
+            "cookie_button": "Anladım"
+        },
+        "pages": {
+            "general": {
+                "description": "Merhaba, Ben Emir Full Stack Developer",
+                "copyright": "EMIRBAYCAN ©2022"
+            },
+            "home": {
+                "page": "anasayfa",
+                "title": "Emir Baycan",
+                "home_top_header_1": "Merhaba, Ben <span>Emir</span>",
+                "home_top_header_2": "Full Stack Developer.",
+                "home_top_button": "Çalışmalarım",
+                "_home": "Anasayfa",
+                "_about": "Hakkımda",
+                "_projects": "Çalışmalarım",
+                "_contact": "İletişim",
+                "about_text": "Fikirleri hayata geçirmeyi ve vizyonları gerçeğe dönüştürmek için becerilerimi kullanmayı seviyorum. Kod yazmadığım zamanlarda ağırlık kaldırmaktan, seyahat etmekten ve yeni teknolojileri öğrenmekten hoşlanıyorum.",
+                "live_website": "Canlı Websitesi",
+                "home_projects": {
+                    "type": "data",
+                    "data": [{
+                            "description": "Gelişmiş bir panele sahip eloboost websitesi"
+                        },
+                        {
+                            "description": "Renki tasarımıyla eğitim platformu"
+                        },
+                        {
+                            "description": "Sıradışı tasarımıyla prefabrik ev satımı sitesi"
+                        },
+                        {
+                            "description": "Kurumsal görünümü ile bir avukat firması websitesi"
+                        },
+                        {
+                            "description": "Alanlarında uzman psikologlar tarafından sunulan bir terapi sitesi"
+                        },
+                        {
+                            "description": "Kurumsal görünümü ile bir avukat websitesi"
+                        },
+                        {
+                            "description": "Alanında başarılı bir eğitim platformu"
+                        },
+                        {
+                            "description": "Tatlı satışı yapan bir şirketin websitesi"
+                        }
+                    ]
+                },
+                "contact_header": "İletişim",
+                "contact_text": "Beraber çalışmak ister misin? Benimle herhangi bir platformdan iletişime geç ve başlayalım."
+            }
+        },
+        "products": {}
+    }
+}

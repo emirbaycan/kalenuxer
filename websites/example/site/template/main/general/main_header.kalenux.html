@@ -1,0 +1,129 @@
+<div class="preloader" id="preloader" data-state="open" style="width:100%;height:100%;position:fixed;left:0;top:0;z-index:99999999;background:black">
+    <div class="preload-inner" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;">
+        <img src="{logo}" style="width:250px;animation:preloader 1s infinite;">
+    </div>
+</div>
+<input type="hidden">
+<div class="header" id="header">
+    <div class="header-bg"></div>
+    <div class="header-holder">
+        <div class="header-inner">
+            <a class="header-logo" href="/" title="{site} - {home_}">
+                <img class="header-img" src="{logo}" alt="{site}">
+            </a>
+            <div class="header-right">
+                <div class="header-infos">
+                    <a class="header-info" target="_blank" href="https://wa.me/{whatsapp_number.setPhone}?text=Merhaba">
+                        <span class="header-info-icon icon-whatsapp"></span>
+                        <p>{whatsapp_number}</p>
+                    </a>
+                    <a class="header-info" target="_blank" href="tel:{whatsapp_number.setPhone}">
+                        <span class="header-info-icon icon-phone"></span>
+                        <p>{whatsapp_number}</p>
+                    </a>
+                    <a class="header-info" target="_blank" href="mailto:{site_email}">
+                        <span class="header-info-icon icon-mail"></span>
+                        <p>{site_email}</p>
+                    </a>
+                </div>
+                <div class="header-navs" id="general_header_menu">
+                    <a class="header-nav" href="/main/pages/home" title="{site} - {home_}">{home_}</a>
+                    <div class="header-down">
+                        <a class="hd-title" onclick="d(this)" title="{site} - {corporation_}">{corporation_}</a>
+                        <div class="hd-holder">
+                            <div class="hd-inner">
+                                <a class="hd-part" href="/main/pages/about-us" title="{site} - {about_us}">{about_us}</a>
+                                <a class="hd-part" href="/main/pages/founder" title="{site} - {founder_}">{founder_}</a>
+                                <a class="hd-part" href="/main/pages/teachers" title="{site} - {teachers_}">{teachers_}</a>
+                                <a class="hd-part" href="/main/pages/career" title="{site} - {career_}">{career_}</a>
+                                <a class="hd-part" href="/main/pages/policies" title="{site} - {policies_}">{policies_}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-down">
+                        <a class="hd-title" onclick="d(this)" title="{site} - {educations_}">{educations_}</a>
+                        <div class="hd-holder">
+                            <div class="hd-inner">
+                                <a class="hd-part" href="/main/products/educations/health-law" title="{site} - {health_law}">{health_law}</a>
+                                <a class="hd-part" href="/main/products/educations/business-law" title="{site} - {business_law}">{business_law}</a>
+                                <a class="hd-part" href="/main/products/educations/criminal-law" title="{site} - {criminal_law}">{criminal_law}</a>
+                                <a class="hd-part" href="/main/products/educations/family-law" title="{site} - {family_law}">{family_law}</a>
+                                <a class="hd-part" href="/main/products/educations/judge-course" title="{site} - {judge_course}">{judge_course}</a>
+                                <a class="hd-part" href="/main/products/educations/kvkk-law" title="{site} - {kvkk_law}">{kvkk_law}</a>
+                                <a class="hd-part" href="/main/products/educations/lawyer-school" title="{site} - {lawyer_school}">{lawyer_school}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="header-nav" href="/main/pages/discover" title="{site} - {discover_}">{discover_}</a>
+                    <a class="header-nav" href="/main/pages/comments" title="{site} - {comments_}">{comments_}</a>
+                    <a class="header-nav" href="/main/pages/blog" title="{site} - {blog_}">{blog_}</a>
+                    <a class="header-nav" href="/main/pages/contact" title="{site} - {contact_}">{contact_}</a>
+                    <li class="header-nav header-menu"><span class="icon-menu copen" data-to="menu"></li>
+                    <div class="header-social social-medias">
+                        <a class="social-media" target="_blank"  href="{instagram}"><span class="icon-instagram"></span></a>
+                        <a class="social-media" target="_blank" href="{linkedin}"><span class="icon-linkedin"></span></a>
+                        <a class="social-media" target="_blank" href="{youtube}"><span class="icon-youtube"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-mobile-menu" id="menu">
+    <div class="hmm-inner">
+        <div class="hmm-bg"></div>
+        <ul class="hmm-minner">
+            <li><a href="/main/pages/home">{home_}</a></li>
+            <li>
+                <div class="header-down">
+                    <a class="hd-title" onclick="d(this)" title="{site} - {corporation_}">{corporation_}</a>
+                    <div class="hd-holder">
+                        <div class="hd-inner">
+                            <a class="hd-part" href="/main/pages/about-us" title="{site} - {about_us}">{about_us}</a>
+                            <a class="hd-part" href="/main/pages/founder" title="{site} - {founder_}">{founder_}</a>
+                            <a class="hd-part" href="/main/pages/teachers" title="{site} - {teachers_}">{teachers_}</a>
+                            <a class="hd-part" href="/main/pages/career" title="{site} - {career_}">{career_}</a>
+                            <a class="hd-part" href="/main/pages/policies" title="{site} - {policies_}">{policies_}</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="header-down">
+                    <a class="hd-title" onclick="d(this)" title="{site} - {educations_}">{educations_}</a>
+                    <div class="hd-holder">
+                        <div class="hd-inner">
+                            <a class="hd-part" href="/main/products/educations/health-law" title="{site} - {health_law}">{health_law}</a>
+                            <a class="hd-part" href="/main/products/educations/business-law" title="{site} - {business_law}">{business_law}</a>
+                            <a class="hd-part" href="/main/products/educations/criminal-law" title="{site} - {criminal_law}">{criminal_law}</a>
+                            <a class="hd-part" href="/main/products/educations/family-law" title="{site} - {family_law}">{family_law}</a>
+                            <a class="hd-part" href="/main/products/educations/judge-course" title="{site} - {judge_course}">{judge_course}</a>
+                            <a class="hd-part" href="/main/products/educations/kvkk-law" title="{site} - {kvkk_law}">{kvkk_law}</a>
+                            <a class="hd-part" href="/main/products/educations/lawyer-school" title="{site} - {lawyer_school}">{lawyer_school}</a>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </li>
+            <li><a href="/main/pages/discover">{discover_}</a></li>
+            <li><a href="/main/pages/comments">{comments_}</a></li>
+            <li><a href="/main/pages/blog">{blog_}</a></li>
+            <li><a href="/main/pages/contact">{contact_}</a></li>
+            <div class="header-infos">
+                <a class="header-info" target="_blank" href="https://wa.me/{whatsapp_number.setPhone}?text=Merhaba">
+                    <span class="header-info-icon icon-whatsapp"></span>
+                    <p>{whatsapp_number}</p>
+                </a>
+                <a class="header-info" target="_blank" href="tel:{whatsapp_number.setPhone}">
+                    <span class="header-info-icon icon-phone"></span>
+                    <p>{whatsapp_number}</p>
+                </a>
+                <a class="header-info" target="_blank" href="mailto:{site_email}">
+                    <span class="header-info-icon icon-mail"></span>
+                    <p>{site_email}</p>
+                </a>
+            </div>
+        </ul>
+    </div>
+    <div class="menu-close copen" data-the="menu"></div>
+</div>
+</div>

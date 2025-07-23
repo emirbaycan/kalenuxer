@@ -1,0 +1,38 @@
+.kalenux-image-display,
+.kalenux-video-display {
+    background-position: center;
+    background-size: cover;
+    width: 15rem;
+    height: 15rem
+}
+
+.kalenux-image-input,
+.kalenux-video-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    z-index: 2
+}
+
+.kalenux-image-adder,
+.kalenux-video-adder {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    opacity: 0
+}
+
+.kalenux-image-holder,
+.kalenux-video-holder {
+    margin: auto;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    position: relative
+}
+
+.kalenux-image-holder:hover {
+    opacity: .5
+}

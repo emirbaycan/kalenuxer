@@ -1,0 +1,1 @@
+function redirectToHome(){if(navigator&&navigator.language){var a=navigator.language.split("-")[0];if(a&&_languages[a])return window.location.href="/"+_languages[a]+"/",!1}window.location.href="/tr"}languages=["1","2"],redirectToHome();

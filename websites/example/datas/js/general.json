@@ -1,0 +1,39 @@
+{
+    "general": {
+        "user_types": {
+            "type": "data",
+            "data": [{
+                "key": { "type": "number", "number": "0" },
+                "value": { "type": "text", "text": "customer" }
+            }, {
+                "key": { "type": "number", "number": "1" },
+                "value": { "type": "text", "text": "writer" }
+            }, {
+                "key": { "type": "number", "number": "2" },
+                "value": { "type": "text", "text": "moderator" }
+            }, {
+                "key": { "type": "number", "number": "3" },
+                "value": { "type": "text", "text": "admin" }
+            }]
+        },
+        "languages": {
+            "type": "data",
+            "data": [
+                { "key": "TR", "value": "1" },
+                { "key": "EN", "value": "2" }
+            ]
+        }
+    },
+    "users": {
+        "admin": {
+            "user_api_url": {
+                "type": "url",
+                "url": "users/admin"
+            },
+            "user_type": {
+                "type": "text",
+                "text": "yonetim"
+            }
+        }
+    }
+}

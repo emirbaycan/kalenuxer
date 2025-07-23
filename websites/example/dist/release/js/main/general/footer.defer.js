@@ -1,0 +1,1 @@
+firer.push(function(){var e=getCookie(site+"_language");e===language&&"undefined"!=typeof kalenuxSelectOption?kalenuxSelectOption("languages",language):e&&e!==language&&languages[e]&&(location.href="/"+e+"/")});

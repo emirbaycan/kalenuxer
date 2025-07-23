@@ -1,0 +1,183 @@
+.detailedTable .card-title {
+    padding: 1.25rem 1.25rem 0;
+}
+
+.detailedTable .card-header {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.dataTables_paginate {
+    display: none;
+}
+
+.table-nav[data-state="opage"] {
+    display: none;
+}
+
+.table-info {
+    margin-right: auto;
+}
+
+.table-info p {
+    margin: auto 1rem;
+}
+
+#datatable {
+    width: 100% !important;
+    margin: auto !important;
+}
+
+div#datatable_wrapper {
+    width: 100%;
+}
+
+.navs-outer[data-page="1"] .before {
+    display: none;
+}
+
+.navs-outer[data-page="-1"] .after {
+    display: none;
+}
+
+.search {
+    display: flex;
+    margin-right: auto;
+    float: left;
+}
+
+.detailedTable .card-body {
+    padding-top: 1rem;
+}
+
+.filters {
+    display: flex;
+    float: right;
+}
+
+.filters .select2-container {
+    margin-left: 0.5rem;
+}
+
+.search .form-control {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0;
+}
+
+.search button {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.swal2-title {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+}
+
+button.swal2-styled {
+    font-size: 1rem !important;
+}
+
+.swal2-actions {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.datepicker.active {
+    z-index: 9999999;
+}
+
+.content-header h1 {
+    margin: auto 0;
+}
+
+table {
+    width: 100%;
+}
+
+tr {
+    height: 4rem;
+}
+
+td:hover .tda {
+    z-index: 1;
+    visibility: visible;
+    opacity: 1;
+}
+
+td button {
+    display: flex !important;
+    margin: auto !important;
+}
+
+td[data-id] {
+    display: flex;
+}
+
+th {
+    padding: 1rem 0.5rem;
+    background: #212427;
+    color: white;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+tbody tr {
+    font-size: 1rem;
+    background: white;
+}
+
+tr.even {
+    background: whitesmoke;
+}
+
+td {
+    color: black;
+    text-align: center;
+    position: relative;
+    border: solid 1px whitesmoke;
+    padding: 1rem 0.5rem;
+}
+
+td button {
+    background: lightgray;
+    border: 0;
+    color: black;
+    font-weight: bold;
+    padding: 4px 15px;
+    border-radius: 8px;
+    transition: 0.5s;
+}
+
+td button:hover {
+    background: var(--theme-color);
+    color: black;
+}
+
+td button i {
+    margin: auto auto;
+    padding: 0 5px 2px 0;
+}
+
+@media(max-width:600px) {
+    .filters {
+        flex-direction: column;
+        float: unset;
+        width: 100%;
+        margin: auto;
+    }
+    .search {
+        float: unset;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    #table_filters {
+        flex-direction: column;
+    }
+    .filters .select2-container {
+        margin: 0 0 10px;
+    }
+    .datepicker-here {
+        margin: 0 !important;
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "general": {
+        "api": "*",
+        "secret": "*"
+    },
+    "main": {
+        "general": {
+            "og_image": "/img/favicon.png",
+            "site": "Emir Baycan"
+        },
+        "pages": {
+            "general": {
+                "copyright": "EMIRBAYCAN ©2022"
+            },
+            "home": {
+                "home_projects": {
+                    "type": "data",
+                    "data": [{
+                            "direction": "left",
+                            "activation": " project-down",
+                            "title": "Do Eloboost",
+                            "img": "de.jpg",
+                            "url": "https://doeloboost.com/"
+                        },
+                        {
+                            "direction": "right",
+                            "activation": "",
+                            "title": "Hukuk Eğitim Programları",
+                            "img": "hep.jpg",
+                            "url": "https://hukukegitimprogramlari.com/"
+                        },
+                        {
+                            "direction": "left",
+                            "activation": "",
+                            "title": "Karalar Prefabrik",
+                            "img": "kp.jpg",
+                            "url": "https://karalarprefabrik.com/"
+                        },
+                        {
+                            "direction": "right",
+                            "activation": "",
+                            "title": "Murat Bulat Law Firm",
+                            "img": "mb.jpg",
+                            "url": "https://muratbulat.av.tr/"
+                        },
+                        {
+                            "direction": "left",
+                            "activation": "",
+                            "title": "Terapi Kliniği",
+                            "img": "tk.jpg",
+                            "url": "https://terapiklinigi.com/"
+                        },
+                        {
+                            "direction": "right",
+                            "activation": "",
+                            "title": "Morkoç Law Firm",
+                            "img": "mhb.jpg",
+                            "url": "https://morkoc.av.tr/"
+                        },
+                        {
+                            "direction": "left",
+                            "activation": "",
+                            "title": "Hukuki Yeterlilik Akademisi",
+                            "img": "hya.jpg",
+                            "url": "https://hukukiyeterlilikakademisi.com/"
+                        },
+                        {
+                            "direction": "right",
+                            "activation": "",
+                            "title": "Eyüp Sultan Tulumbacısı",
+                            "img": "est.jpg",
+                            "url": "https://eyupsultantulumbacisi.com/"
+                        }
+                    ]
+                }
+            }
+        },
+        "products": {}
+    }
+}

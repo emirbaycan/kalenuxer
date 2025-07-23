@@ -1,0 +1,176 @@
+#kalenux_templates {
+    display: none;
+}
+
+.kalenux-table {
+    display: flex;
+}
+
+.kt-mid {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.kt-bot {
+    padding: 1rem 0 0;
+    display: flex;
+}
+
+.kalenux-table-holder[data-state="hidden"] {
+    display: none;
+}
+
+.cell-row .kt-cell {
+    flex-direction: row;
+}
+
+.kt-bot button {
+    background: transparent;
+    border: 0;
+    color: white;
+    font-size: .9rem;
+    margin: auto 0;
+    padding: 1rem;
+}
+
+.ktn-parts {
+    display: flex;
+    margin: auto;
+}
+
+.ktn-item:hover,
+.ktn-item:focus,
+.ktn-item.active {
+    color: var(--secondary-color);
+}
+
+.kt-header {
+    display: flex;
+    width: 100%;
+}
+
+.kt-head {
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+    padding: 1rem .5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.kt-head-plus,
+.kt-handle {
+    min-width: 4rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-height: 4rem;
+    color: white;
+    cursor: pointer;
+}
+
+.kt-head-plus[data-state="open"],
+.kt-handle[data-state="open"] {
+    display: flex;
+}
+
+.kt-cell,
+.kt-cell-inner {
+    display: flex;
+    width: 100%;
+}
+
+.kt-item {
+    width: 100%;
+    padding: .5rem .5rem;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kalenux-table,
+.kalenux-table-holder {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.kt-deactive {
+    display: none;
+}
+
+.kt-deactive+.kt-head-plus {
+    display: flex;
+}
+
+.kt-cell[data-state="open"] .kt-handlers .kt-deactive {
+    display: flex;
+}
+
+.kt-cell {
+    flex-direction: column;
+    font-size: .9rem;
+}
+
+.kt-handler {
+    display: flex;
+}
+
+.kt-handler-body {
+    width: 50%;
+    padding-left: .5rem;
+    box-sizing: border-box;
+    align-items: center;
+    display: flex;
+}
+
+.icon-plus:before {
+    content: '\ea1b';
+}
+
+.icon-minus:before {
+    content: '\ea1e';
+}
+
+.kt-handler-head {
+    display: flex;
+    margin: auto;
+}
+
+.kt-handler-head .kt-head {
+    width: auto;
+    white-space: nowrap;
+}
+
+.kt-check-width .kt-deactive {
+    display: flex;
+}
+
+.kt-image {
+    width: 200px;
+    height: 200px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.kt-video {
+    display: flex;
+    width: 200px;
+    height: 200px;
+}
+
+.kt-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

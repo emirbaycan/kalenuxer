@@ -1,0 +1,1 @@
+function getActions(e){return'<button data-id="'+e+'" class="btn btn-del" onclick="del(this)"><span class="icon-delete"></span></button>'}function del(e){postJSON(user_api_url+"del/message",function(e,t){1===e.result&&t.elem.parentNode.parentNode.remove()},{id:e.dataset.id},{elem:e})}statuses={0:"Yeni Mesaj",1:"İşlendi"};

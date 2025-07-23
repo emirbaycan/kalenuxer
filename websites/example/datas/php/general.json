@@ -1,0 +1,21 @@
+{
+    "general": {
+        "site": "Emir Baycan",
+        "api_key": "*",
+
+        "mail_port": 457,
+        "mail_username": "",
+        "mail_password": "",
+
+        "sql_username": "*",
+        "sql_password": "*"
+    },
+    "test": {
+        "site_url": "https://test.emirbaycan.site",
+        "sql_database": "*"
+    },
+    "release": {
+        "site_url": "https://emirbaycan.site",
+        "sql_database": "*"
+    }
+}

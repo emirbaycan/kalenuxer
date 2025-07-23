@@ -1,0 +1,46 @@
+ErrorDocument 404 /404.html
+
+
+
+<FilesMatch "\.(css|js|png|jpeg|jpg|json)$"> 
+
+    Header set Cache-Control "max-age=31536000, public"
+
+</FilesMatch> 
+
+
+
+RewriteEngine on
+
+RewriteCond %{SERVER_PORT} 80 
+
+RewriteRule (.*) https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+
+Header add Access-Control-Allow-Origin "https://www.emirbaycan.com"
+Header set Access-Control-Allow-Credentials "true"
+Header set Access-Control-Allow-Headers "Origin, Content-Type"
+
+
+DirectoryIndex /tr/anasayfa.html
+
+
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html 
+#RewriteRule ^([a-z]+)\/?$ $1.html [NC]
+
+
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+
+RewriteRule ^(.*)$ $1.php
+
+#RewriteRule ^([a-z]+)\/?$ $1.php [NC]     
+  
