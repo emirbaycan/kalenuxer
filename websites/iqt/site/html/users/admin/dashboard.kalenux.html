@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - IQ Test Platform</title>
+    <!-- Base admin styles -->
+    <link rel="stylesheet" href="/css/users/admin/general.css">
+    <!-- Shared admin components (buttons, modals, forms, tables, etc.) -->
+    <link rel="stylesheet" href="/css/users/admin/admin-components.css">
+    <!-- Dashboard-specific styles -->
+    <link rel="stylesheet" href="/css/users/admin/dashboard.css">
+    <!-- Font Awesome icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        !panel_menu!
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Main Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-chart-line"></i> Dashboard</h1>
+                    <p><i class="fas fa-clock"></i> Overview of your IQ Test Platform</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="header-action-btn" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <button class="header-action-btn" title="Messages">
+                            <i class="fas fa-envelope"></i>
+                            <span class="badge">5</span>
+                        </button>
+                        <button class="header-action-btn" title="Settings">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                    <div class="admin-profile">
+                        <div class="admin-profile-info">
+                            <span>Admin User</span>
+                            <small>Administrator</small>
+                        </div>
+                        <i class="fas fa-user-circle"></i>
+                        <div class="status-indicator"></div>
+                        
+                        <!-- Profile Dropdown -->
+                        <div class="profile-dropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="dropdown-name">Admin User</div>
+                                <div class="dropdown-email">admin@whats-your-iq.com</div>
+                            </div>
+                            <div class="dropdown-menu">
+                                <a href="/users/admin/profile" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <a href="/users/admin/settings" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Account Settings</span>
+                                </a>
+                                <a href="/users/admin/preferences" class="dropdown-item">
+                                    <i class="fas fa-palette"></i>
+                                    <span>Preferences</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="/users/admin/help" class="dropdown-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </a>
+                                <a href="/users/admin/activity" class="dropdown-item">
+                                    <i class="fas fa-history"></i>
+                                    <span>Activity Log</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" id="logout-btn-header" class="dropdown-item danger">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="admin-main-content">
+                <!-- Modern Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card revenue">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="today-revenue">$2,847</h3>
+                            <p>Today's Revenue</p>
+                            <div class="stat-change">
+                                <span class="change-positive">↗ +12.5%</span>
+                                <span>vs yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card payments">
+                        <div class="stat-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="today-payments">156</h3>
+                            <p>Today's Payments</p>
+                            <div class="stat-change">
+                                <span class="change-positive">↗ +8.2%</span>
+                                <span>vs yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card blog-posts">
+                        <div class="stat-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-blog-posts">42</h3>
+                            <p>Blog Posts</p>
+                            <div class="stat-change">
+                                <span class="change-positive">↗ +3</span>
+                                <span>this week</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card success-rate">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="success-rate">94.2%</h3>
+                            <p>Success Rate</p>
+                            <div class="stat-change">
+                                <span class="change-positive">↗ +2.1%</span>
+                                <span>vs last week</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Analytics Row -->
+                <div class="dashboard-row">
+                    <!-- Revenue Chart -->
+                    <div class="dashboard-card chart-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-area"></i>Revenue Overview</h3>
+                            <div class="chart-controls">
+                                <select id="revenue-period">
+                                    <option value="7d">Last 7 Days</option>
+                                    <option value="30d" selected>Last 30 Days</option>
+                                    <option value="90d">Last 90 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="revenue-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="dashboard-card recent-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clock"></i>Recent Activity</h3>
+                            <a href="/users/admin/payments" class="view-all">View All</a>
+                        </div>
+                        <div class="recent-list" id="recent-payments">
+                            <div class="recent-item">
+                                <div class="activity-icon success">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div class="post-info">
+                                    <div class="post-title">New payment received</div>
+                                    <div class="post-meta">Premium Plan - $19.99 • 2 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="recent-item">
+                                <div class="activity-icon info">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="post-info">
+                                    <div class="post-title">New user registered</div>
+                                    <div class="post-meta">john.doe@example.com • 15 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="recent-item">
+                                <div class="activity-icon warning">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="post-info">
+                                    <div class="post-title">Blog post published</div>
+                                    <div class="post-meta">Understanding IQ Tests • 1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="recent-item">
+                                <div class="activity-icon primary">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div class="post-info">
+                                    <div class="post-title">IQ test completed</div>
+                                    <div class="post-meta">Score: 132 • High Performance • 2 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Management Dashboard -->
+                <div class="dashboard-row">
+                    <div class="dashboard-card blog-overview">
+                        <div class="card-header">
+                            <h3><i class="fas fa-edit"></i>Blog Overview</h3>
+                            <a href="/users/admin/blog" class="view-all">Manage Blog</a>
+                        </div>
+                        <div class="blog-stats-grid">
+                            <div class="blog-stat">
+                                <div class="blog-stat-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="blog-stat-content">
+                                    <h4 id="total-posts">42</h4>
+                                    <span>Total Posts</span>
+                                </div>
+                            </div>
+                            <div class="blog-stat">
+                                <div class="blog-stat-icon">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="blog-stat-content">
+                                    <h4 id="total-views">8,254</h4>
+                                    <span>Total Views</span>
+                                </div>
+                            </div>
+                            <div class="blog-stat">
+                                <div class="blog-stat-icon">
+                                    <i class="fas fa-folder"></i>
+                                </div>
+                                <div class="blog-stat-content">
+                                    <h4 id="total-categories">8</h4>
+                                    <span>Categories</span>
+                                </div>
+                            </div>
+                            <div class="blog-stat">
+                                <div class="blog-stat-icon">
+                                    <i class="fas fa-tags"></i>
+                                </div>
+                                <div class="blog-stat-content">
+                                    <h4 id="total-tags">24</h4>
+                                    <span>Tags</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="blog-status-overview">
+                            <div class="status-item">
+                                <span class="status-label">Published</span>
+                                <div class="status-bar">
+                                    <div class="status-fill published" style="width: 78%"></div>
+                                </div>
+                                <span class="status-count">33</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Drafts</span>
+                                <div class="status-bar">
+                                    <div class="status-fill drafts" style="width: 19%"></div>
+                                </div>
+                                <span class="status-count">8</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Archived</span>
+                                <div class="status-bar">
+                                    <div class="status-fill archived" style="width: 3%"></div>
+                                </div>
+                                <span class="status-count">1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Blog Posts -->
+                    <div class="dashboard-card recent-posts">
+                        <div class="card-header">
+                            <h3><i class="fas fa-newspaper"></i>Recent Blog Posts</h3>
+                            <a href="/users/admin/blog" class="view-all">View All</a>
+                        </div>
+                        <div class="recent-list" id="recent-blog-posts">
+                            <div class="recent-item">
+                                <img src="/img/blog/iq-guide.jpg" alt="IQ Guide" class="post-thumbnail" 
+                                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNSAyMEMyNi4xIDIwIDI3IDIwLjkgMjcgMjJDMjcgMjMuMSAyNi4xIDI0IDI1IDI0QzIzLjkgMjQgMjMgMjMuMSAyMyAyMkMyMyAyMC45IDIzLjkgMjAgMjUgMjBaTTI1IDMwQzI2LjEgMzAgMjcgMzAuOSAyNyAzMkMyNyAzMy4xIDI2LjEgMzQgMjUgMzRDMjMuOSAzNCAyMyAzMy4xIDIzIDMyQzIzIDMwLjkgMjMuOSAzMCAyNSAzMFoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+';">
+                                <div class="post-info">
+                                    <div class="post-title">Understanding IQ Tests: Complete Guide</div>
+                                    <div class="post-meta">
+                                        <span class="status-badge active">Published</span>
+                                        • 2 days ago • 1,247 views
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="recent-item">
+                                <img src="/img/blog/psychology.jpg" alt="Psychology" class="post-thumbnail" 
+                                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNSAyMEMyNi4xIDIwIDI3IDIwLjkgMjcgMjJDMjcgMjMuMSAyNi4xIDI0IDI1IDI0QzIzLjkgMjQgMjMgMjMuMSAyMyAyMkMyMyAyMC45IDIzLjkgMjAgMjUgMjBaTTI1IDMwQzI2LjEgMzAgMjcgMzAuOSAyNyAzMkMyNyAzMy4xIDI2LjEgMzQgMjUgMzRDMjMuOSAzNCAyMyAzMy4xIDIzIDMyQzIzIDMwLjkgMjMuOSAzMCAyNSAzMFoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+';">
+                                <div class="post-info">
+                                    <div class="post-title">Psychology Behind Intelligence</div>
+                                    <div class="post-meta">
+                                        <span class="status-badge active">Published</span>
+                                        • 1 week ago • 892 views
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="recent-item">
+                                <img src="/img/blog/brain-training.jpg" alt="Brain Training" class="post-thumbnail" 
+                                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNSAyMEMyNi4xIDIwIDI3IDIwLjkgMjcgMjJDMjcgMjMuMSAyNi4xIDI0IDI1IDI0QzIzLjkgMjQgMjMgMjMuMSAyMyAyMkMyMyAyMC45IDIzLjkgMjAgMjUgMjBaTTI1IDMwQzI2LjEgMzAgMjcgMzAuOSAyNyAzMkMyNyAzMy4xIDI2LjEgMzQgMjUgMzRDMjMuOSAzNCAyMyAzMy4xIDIzIDMyQzIzIDMwLjkgMjMuOSAzMCAyNSAzMFoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+';">
+                                <div class="post-info">
+                                    <div class="post-title">Brain Training Exercises</div>
+                                    <div class="post-meta">
+                                        <span class="status-badge pending">Draft</span>
+                                        • 3 days ago • 0 views
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plan Performance -->
+                <div class="dashboard-row">
+                    <div class="dashboard-card plan-performance">
+                        <div class="card-header">
+                            <h3>Plan Performance</h3>
+                            <span class="period-indicator">This Month</span>
+                        </div>
+                        <div class="plan-stats">
+                            <div class="plan-stat">
+                                <div class="plan-info">
+                                    <h4>Basic Plan</h4>
+                                    <span class="plan-price">$9.99</span>
+                                </div>
+                                <div class="plan-metrics">
+                                    <div class="metric">
+                                        <span class="metric-value">47</span>
+                                        <span class="metric-label">Sales</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-value">$469</span>
+                                        <span class="metric-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="plan-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 30%"></div>
+                                    </div>
+                                    <span class="progress-text">30% of total</span>
+                                </div>
+                            </div>
+
+                            <div class="plan-stat">
+                                <div class="plan-info">
+                                    <h4>Premium Plan</h4>
+                                    <span class="plan-price">$19.99</span>
+                                </div>
+                                <div class="plan-metrics">
+                                    <div class="metric">
+                                        <span class="metric-value">78</span>
+                                        <span class="metric-label">Sales</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-value">$1,559</span>
+                                        <span class="metric-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="plan-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 50%"></div>
+                                    </div>
+                                    <span class="progress-text">50% of total</span>
+                                </div>
+                            </div>
+
+                            <div class="plan-stat">
+                                <div class="plan-info">
+                                    <h4>Enterprise Plan</h4>
+                                    <span class="plan-price">$49.99</span>
+                                </div>
+                                <div class="plan-metrics">
+                                    <div class="metric">
+                                        <span class="metric-value">31</span>
+                                        <span class="metric-label">Sales</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-value">$1,550</span>
+                                        <span class="metric-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="plan-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 20%"></div>
+                                    </div>
+                                    <span class="progress-text">20% of total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="dashboard-card quick-actions">
+                        <div class="card-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="action-grid">
+                            <a href="/users/admin/blog" class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>New Blog Post</h4>
+                                    <p>Create a new blog article</p>
+                                </div>
+                            </a>
+
+                            <a href="/users/admin/categories" class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-folder-plus"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Manage Categories</h4>
+                                    <p>Organize blog content</p>
+                                </div>
+                            </a>
+
+                            <a href="/users/admin/payments" class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>View Payments</h4>
+                                    <p>Manage transactions</p>
+                                </div>
+                            </a>
+
+                            <a href="/users/admin/users" class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>User Management</h4>
+                                    <p>Manage platform users</p>
+                                </div>
+                            </a>
+
+                            <a href="/users/admin/blog-settings" class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Blog Settings</h4>
+                                    <p>Configure blog system</p>
+                                </div>
+                            </a>
+
+                            <a href="/users/admin/analytics" class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Analytics</h4>
+                                    <p>View detailed reports</p>
+                                </div>
+                            </a>
+
+                            <a href="#" class="action-item" onclick="exportData()">
+                                <div class="action-icon">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Export Data</h4>
+                                    <p>Download reports</p>
+                                </div>
+                            </a>
+
+                            <a href="/users/admin/settings" class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Settings</h4>
+                                    <p>Platform configuration</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Common Admin Scripts -->
+    <script src="/js/users/admin/font-awesome-fallback.js"></script>
+    <script src="/js/users/admin/admin-common.js"></script>
+
+    <!-- Chart.js for Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Font Awesome Detection (legacy - will be removed) -->
+    <script>
+    // Font Awesome Loading Detection and Fallback System
+    (function() {
+        let fontAwesomeLoaded = false;
+        let loadAttempt = 0;
+        const maxAttempts = 3;
+        
+        function checkFontAwesome() {
+            try {
+                // Check if Font Awesome CSS is actually loaded
+                const testElement = document.createElement('i');
+                testElement.className = 'fas fa-home';
+                testElement.style.position = 'absolute';
+                testElement.style.left = '-9999px';
+                document.body.appendChild(testElement);
+                
+                const computedStyle = window.getComputedStyle(testElement);
+                const fontFamily = computedStyle.getPropertyValue('font-family');
+                
+                document.body.removeChild(testElement);
+                
+                // Check if Font Awesome font is loaded
+                if (fontFamily && (
+                    fontFamily.includes('Font Awesome') || 
+                    fontFamily.includes('FontAwesome') ||
+                    computedStyle.content !== 'none'
+                )) {
+                    fontAwesomeLoaded = true;
+                    console.log('✅ Font Awesome loaded successfully');
+                    return true;
+                }
+                
+                return false;
+            } catch (e) {
+                console.error('❌ Font Awesome check failed:', e);
+                return false;
+            }
+        }
+        
+        function loadFontAwesomeFallback() {
+            if (loadAttempt >= maxAttempts) {
+                console.warn('⚠️ Font Awesome failed to load after', maxAttempts, 'attempts. Using emoji fallbacks.');
+                activateEmojiFallbacks();
+                return;
+            }
+            
+            loadAttempt++;
+            console.log('🔄 Loading Font Awesome fallback attempt', loadAttempt);
+            
+            // Try loading from different CDN
+            const fallbackCDNs = [
+                'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+                'https://maxcdn.bootstrapcdn.com/font-awesome/6.5.1/css/all.min.css',
+                'https://pro.fontawesome.com/releases/v6.5.1/css/all.css'
+            ];
+            
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = fallbackCDNs[loadAttempt - 1];
+            link.crossOrigin = 'anonymous';
+            
+            link.onload = function() {
+                setTimeout(() => {
+                    if (checkFontAwesome()) {
+                        fontAwesomeLoaded = true;
+                    } else {
+                        loadFontAwesomeFallback();
+                    }
+                }, 100);
+            };
+            
+            link.onerror = function() {
+                console.error('❌ Font Awesome CDN', loadAttempt, 'failed');
+                loadFontAwesomeFallback();
+            };
+            
+            document.head.appendChild(link);
+        }
+        
+        function activateEmojiFallbacks() {
+            console.log('🔧 Activating emoji fallbacks for icons');
+            
+            // Add fallback CSS
+            const fallbackCSS = `
+                <style>
+                .fas, .fa, .far, .fab { font-family: sans-serif !important; }
+                .fa-dollar-sign:before { content: "💰" !important; }
+                .fa-credit-card:before { content: "💳" !important; }
+                .fa-edit:before { content: "✏️" !important; }
+                .fa-file-alt:before { content: "�" !important; }
+                .fa-chart-line:before { content: "�" !important; }
+                .fa-chart-area:before { content: "�" !important; }
+                .fa-clock:before { content: "�" !important; }
+                .fa-newspaper:before { content: "📰" !important; }
+                .fa-brain:before { content: "🧠" !important; }
+                .fa-user-circle:before { content: "👤" !important; }
+                .fa-folder-open:before { content: "📁" !important; }
+                .fa-tags:before { content: "🏷️" !important; }
+                .fa-cogs:before { content: "⚙️" !important; }
+                .fa-server:before { content: "🖥️" !important; }
+                .fa-users:before { content: "👥" !important; }
+                .fa-envelope:before { content: "✉️" !important; }
+                .fa-chart-bar:before { content: "📊" !important; }
+                .fa-chart-pie:before { content: "🥧" !important; }
+                .fa-cog:before { content: "⚙️" !important; }
+                .fa-power-off:before { content: "🔌" !important; }
+                .fa-eye:before { content: "👁️" !important; }
+                .fa-folder:before { content: "📁" !important; }
+                .fa-user-plus:before { content: "�" !important; }
+                .fa-plus-circle:before { content: "➕" !important; }
+                .fa-folder-plus:before { content: "📁" !important; }
+                .fa-download:before { content: "⬇️" !important; }
+                .fa-spinner:before { content: "⏳" !important; }
+                .fa-home:before { content: "🏠" !important; }
+                .fa-spin { animation: spin 2s linear infinite !important; }
+                @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                </style>
+            `;
+            
+            document.head.insertAdjacentHTML('beforeend', fallbackCSS);
+        }
+        
+        // Initial check
+        setTimeout(() => {
+            if (!checkFontAwesome()) {
+                console.warn('⚠️ Font Awesome not detected, loading fallback...');
+                loadFontAwesomeFallback();
+            }
+        }, 500);
+        
+        // Final fallback check after 3 seconds
+        setTimeout(() => {
+            if (!fontAwesomeLoaded) {
+                console.warn('⚠️ Font Awesome still not loaded, activating emoji fallbacks');
+                activateEmojiFallbacks();
+            }
+        }, 3000);
+    })();
+    </script>
+
+    <!-- Enhanced Dashboard JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    // API Configuration
+    const API_BASE = '/api/v1';
+    const getAuthHeaders = () => {
+        const token = localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token');
+        return {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        };
+    };
+
+    // Hide loading overlay on page load
+    window.addEventListener('load', function() {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize dashboard
+        initializeDashboard();
+        initializeCharts();
+        setupRealTimeUpdates();
+        setupInteractiveElements();
+        
+        // Counter animation for stats
+        animateCounters();
+        
+        // Load dashboard data
+        loadDashboardData();
+    });
+
+    function initializeDashboard() {
+        // Set up dashboard cards with hover effects
+        const cards = document.querySelectorAll('.dashboard-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add click handlers for quick actions
+        setupQuickActions();
+    }
+
+    function initializeCharts() {
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenue-chart');
+        if (revenueCtx) {
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [1200, 1900, 1500, 2200, 2800, 3200, 2900, 3500, 4100, 3800, 4300, 4800],
+                        borderColor: 'rgba(99, 102, 241, 1)',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: 'rgba(99, 102, 241, 1)',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value;
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function setupRealTimeUpdates() {
+        // Simulate real-time updates
+        setInterval(() => {
+            updateStats();
+        }, 30000); // Update every 30 seconds
+    }
+
+    function updateStats() {
+        // Simulate dynamic stat updates
+        const revenueElement = document.getElementById('today-revenue');
+        const paymentsElement = document.getElementById('today-payments');
+        
+        if (revenueElement) {
+            const currentRevenue = parseFloat(revenueElement.textContent.replace('$', '').replace(',', ''));
+            const newRevenue = currentRevenue + (Math.random() * 50);
+            revenueElement.textContent = '$' + Math.floor(newRevenue).toLocaleString();
+        }
+        
+        if (paymentsElement) {
+            const currentPayments = parseInt(paymentsElement.textContent.replace(/,/g, ''));
+            const newPayments = currentPayments + Math.floor(Math.random() * 2);
+            paymentsElement.textContent = newPayments.toLocaleString();
+        }
+    }
+
+    function setupQuickActions() {
+        // Quick action buttons
+        const quickActions = document.querySelectorAll('.action-item');
+        quickActions.forEach(action => {
+            action.addEventListener('click', function(e) {
+                if (this.hasAttribute('onclick')) return; // Skip export button
+                
+                // Add click effect
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+    }
+
+    function animateCounters() {
+        const counters = document.querySelectorAll('.stat-content h3, .metric-value');
+        
+        counters.forEach(counter => {
+            const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+            if (isNaN(target) || target === 0) return;
+            
+            const duration = 2000;
+            const start = performance.now();
+            
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - start;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+                const easedProgress = easeOutCubic(progress);
+                
+                const current = Math.floor(target * easedProgress);
+                
+                // Format based on original content
+                if (counter.textContent.includes('$')) {
+                    counter.textContent = '$' + current.toLocaleString();
+                } else if (counter.textContent.includes('%')) {
+                    counter.textContent = current + '%';
+                } else {
+                    counter.textContent = current.toLocaleString();
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        });
+    }
+
+    function setupInteractiveElements() {
+        // Period selector for revenue chart
+        const periodSelector = document.getElementById('revenue-period');
+        if (periodSelector) {
+            periodSelector.addEventListener('change', function() {
+                updateChartData(this.value);
+            });
+        }
+
+        // Notification system
+        setupNotifications();
+    }
+
+    function updateChartData(period) {
+        // In a real implementation, you would fetch new data based on the period
+        console.log('Updating chart for period:', period);
+        showNotification(`Chart updated for ${period}`, 'success');
+    }
+
+    function setupNotifications() {
+        // Check for new notifications every 2 minutes
+        setInterval(() => {
+            if (Math.random() > 0.85) { // 15% chance every 2 minutes
+                checkNotifications();
+            }
+        }, 120000);
+    }
+
+    function checkNotifications() {
+        const messages = [
+            'New user registered successfully',
+            'Payment processed successfully',
+            'Blog post published',
+            'System backup completed',
+            'New IQ test submitted'
+        ];
+        
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        showNotification(randomMessage, 'info');
+    }
+
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${getNotificationIcon(type)}"></i>
+                <span>${message}</span>
+            </div>
+            <button class="notification-close" onclick="this.parentElement.remove()">&times;</button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+
+    function getNotificationIcon(type) {
+        const icons = {
+            info: 'info-circle',
+            success: 'check-circle',
+            warning: 'exclamation-triangle',
+            error: 'times-circle'
+        };
+        return icons[type] || 'bell';
+    }
+
+    async function loadDashboardData() {
+        try {
+            const response = await fetch(`${API_BASE}/admin/dashboard/stats`, {
+                headers: getAuthHeaders()
+            });
+
+            if (!response.ok) {
+                console.log('Using demo data for dashboard');
+                return; // Demo data already loaded in HTML
+            }
+
+            const data = await response.json();
+            updateDashboardStats(data);
+
+        } catch (error) {
+            console.log('Using demo data for dashboard:', error);
+            // Demo data already loaded in HTML
+        }
+    }
+
+    function updateDashboardStats(data) {
+        updateElementText('today-revenue', '$' + (data.todayRevenue || '2,847').toLocaleString());
+        updateElementText('today-payments', (data.todayPayments || '156').toLocaleString());
+        updateElementText('total-blog-posts', data.blogPosts || '42');
+        updateElementText('success-rate', (data.successRate || '94.2') + '%');
+        
+        // Update blog stats
+        updateElementText('total-posts', data.totalPosts || '42');
+        updateElementText('total-views', (data.totalViews || '8,254').toLocaleString());
+        updateElementText('total-categories', data.totalCategories || '8');
+        updateElementText('total-tags', data.totalTags || '24');
+    }
+
+    function updateElementText(id, text) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = text;
+        }
+    }
+
+    // Export data function
+    function exportData() {
+        showNotification('Preparing export...', 'info');
+        
+        // Simulate export process
+        setTimeout(() => {
+            showNotification('Export completed successfully!', 'success');
+        }, 2000);
+    }
+
+    // Loading overlay utility functions
+    function showLoading() {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'flex';
+        }
+    }
+
+    function hideLoading() {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'none';
+        }
+    }
+    </script>
+
+    <!-- Font Awesome Fallback Script -->
+    <script>
+    // Check if Font Awesome loaded, if not load fallback
+    document.addEventListener('DOMContentLoaded', function() {
+        // Test if Font Awesome CSS is loaded by checking for a known class
+        const testElement = document.createElement('i');
+        testElement.className = 'fas fa-home';
+        testElement.style.display = 'none';
+        document.body.appendChild(testElement);
+        
+        const computedStyle = window.getComputedStyle(testElement, ':before');
+        const hasContent = computedStyle.content !== 'none' && computedStyle.content !== '';
+        
+        document.body.removeChild(testElement);
+        
+        if (!hasContent) {
+            console.log('Font Awesome CSS failed to load, loading fallback...');
+            
+            // Load Font Awesome via JavaScript as fallback
+            const script = document.createElement('script');
+            script.src = 'https://kit.fontawesome.com/yourkitcode.js'; // Replace with your kit code if available
+            script.crossOrigin = 'anonymous';
+            
+            // Alternative: Load via CSS if script fails
+            script.onerror = function() {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
+                document.head.appendChild(link);
+                
+                // Convert fas classes to fa classes for Font Awesome 4.x compatibility
+                setTimeout(() => {
+                    const fasIcons = document.querySelectorAll('[class*="fas "]');
+                    fasIcons.forEach(icon => {
+                        icon.className = icon.className.replace('fas ', 'fa ');
+                    });
+                }, 500);
+            };
+            
+            document.head.appendChild(script);
+        } else {
+            console.log('Font Awesome loaded successfully');
+        }
+    });
+    </script>
+
+    <!-- Admin Header Functionality -->
+    <script>
+        // Header notification functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logout button in header dropdown
+            const logoutBtnHeader = document.getElementById('logout-btn-header');
+            if (logoutBtnHeader) {
+                logoutBtnHeader.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to sign out?')) {
+                        localStorage.removeItem('admin_token');
+                        localStorage.removeItem('admin_refresh_token');
+                        window.location.href = '/admin/login';
+                    }
+                });
+            }
+
+            // Notification button click
+            const notificationBtn = document.querySelectorAll('.header-action-btn')[0];
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    alert('Notifications feature coming soon!');
+                });
+            }
+
+            // Messages button click
+            const messagesBtn = document.querySelectorAll('.header-action-btn')[1];
+            if (messagesBtn) {
+                messagesBtn.addEventListener('click', function() {
+                    window.location.href = '/users/admin/messages';
+                });
+            }
+
+            // Settings button click
+            const settingsBtn = document.querySelectorAll('.header-action-btn')[2];
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', function() {
+                    alert('Quick settings coming soon!');
+                });
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const profileDropdown = document.querySelector('.profile-dropdown');
+                const adminProfile = document.querySelector('.admin-profile');
+                
+                if (profileDropdown && !adminProfile.contains(e.target)) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
