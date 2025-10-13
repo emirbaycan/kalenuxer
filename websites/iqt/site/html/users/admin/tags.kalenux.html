@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags Management - IQ Test Platform</title>
+    <link rel="stylesheet" href="/css/users/admin/general.css">
+    <link rel="stylesheet" href="/css/users/admin/tags.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="admin-container">
+        !panel_menu!
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-tags"></i> Tags Management</h1>
+                    <p><i class="fas fa-bookmark"></i> Manage blog tags and their usage</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="header-action-btn" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <button class="header-action-btn" title="Messages">
+                            <i class="fas fa-envelope"></i>
+                            <span class="badge">5</span>
+                        </button>
+                        <button class="header-action-btn" title="Settings">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                    <div class="admin-profile">
+                        <div class="admin-profile-info">
+                            <span>Admin User</span>
+                            <small>Administrator</small>
+                        </div>
+                        <i class="fas fa-user-circle"></i>
+                        <div class="status-indicator"></div>
+                        
+                        <!-- Profile Dropdown -->
+                        <div class="profile-dropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="dropdown-name">Admin User</div>
+                                <div class="dropdown-email">admin@whats-your-iq.com</div>
+                            </div>
+                            <div class="dropdown-menu">
+                                <a href="/users/admin/profile" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <a href="/users/admin/settings" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Account Settings</span>
+                                </a>
+                                <a href="/users/admin/preferences" class="dropdown-item">
+                                    <i class="fas fa-palette"></i>
+                                    <span>Preferences</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="/users/admin/help" class="dropdown-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </a>
+                                <a href="/users/admin/activity" class="dropdown-item">
+                                    <i class="fas fa-history"></i>
+                                    <span>Activity Log</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" id="logout-btn-header" class="dropdown-item danger">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="admin-main-content">
+                <!-- Stats Section -->
+                <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div>
+                            <h3 id="total-tags">0</h3>
+                            <p>Total Tags</p>
+                        </div>
+                        <i class="fas fa-tags stat-icon"></i>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div>
+                            <h3 id="used-tags">0</h3>
+                            <p>Used Tags</p>
+                        </div>
+                        <i class="fas fa-check-circle stat-icon"></i>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div>
+                            <h3 id="unused-tags">0</h3>
+                            <p>Unused Tags</p>
+                        </div>
+                        <i class="fas fa-circle-minus stat-icon"></i>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div>
+                            <h3 id="total-usages">0</h3>
+                            <p>Total Usages</p>
+                        </div>
+                        <i class="fas fa-hashtag stat-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label>Search Tags</label>
+                        <input type="text" id="tag-search" placeholder="Search by name..." class="form-control">
+                    </div>
+                    <div class="filter-group">
+                        <label>Filter by Status</label>
+                        <select id="status-filter" class="form-control">
+                            <option value="">All Tags</option>
+                            <option value="used">Used Tags</option>
+                            <option value="unused">Unused Tags</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select id="sort-filter" class="form-control">
+                            <option value="name">Name</option>
+                            <option value="usage_count">Usage Count</option>
+                            <option value="created_at">Date Created</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-outline" onclick="clearFilters()">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tags Table Section -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h3><i class="fas fa-list"></i> Tags List</h3>
+                    <div class="table-actions">
+                        <button id="add-tag-btn" class="btn btn-primary" onclick="showAddTagModal()">
+                            <i class="fas fa-plus"></i> Add Tag
+                        </button>
+                        <button id="cleanup-tags-btn" class="btn btn-outline" onclick="cleanupUnusedTags()">
+                            <i class="fas fa-broom"></i> Cleanup Unused
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="tags-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tag Name</th>
+                                <th>Slug</th>
+                                <th>Description</th>
+                                <th>Usage Count</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tags-tbody">
+                            <tr class="loading-row">
+                                <td colspan="6" style="text-align: center; padding: 2rem;">
+                                    <div class="spinner" style="margin: 0 auto;"></div>
+                                    <p style="margin-top: 1rem; color: var(--text-secondary);">Loading tags...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div><!-- /.admin-main-content -->
+        </main>
+    </div>
+
+    <!-- Add Tag Modal -->
+    <div class="modal" id="add_tag_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus"></i> Add New Tag</h3>
+                    <button class="modal-close" onclick="closeModal('add_tag_modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Tag Name *</label>
+                        <input type="text" class="form-control kalenux-add" data-name="name" id="add_name" required onkeyup="updateSlugFromName('add')" placeholder="Enter tag name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Slug (URL)</label>
+                        <input type="text" class="form-control kalenux-add" data-name="slug" id="add_slug" placeholder="auto-generated-from-name" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control kalenux-add" data-name="description" id="add_description" rows="3" placeholder="Brief description of the tag..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeModal('add_tag_modal')">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button class="btn btn-primary" onclick="addTag(this)">
+                        <i class="fas fa-plus"></i> Add Tag
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Tag Modal -->
+    <div class="modal" id="edit_tag_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-edit"></i> Edit Tag</h3>
+                    <button class="modal-close" onclick="closeModal('edit_tag_modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Tag Name *</label>
+                        <input type="text" class="form-control kalenux-change" data-name="name" id="edit_name" required onkeyup="updateSlugFromName('edit')" placeholder="Enter tag name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Slug (URL)</label>
+                        <input type="text" class="form-control kalenux-change" data-name="slug" id="edit_slug" placeholder="auto-generated-from-name" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control kalenux-change" data-name="description" id="edit_description" rows="3" placeholder="Brief description of the tag..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeModal('edit_tag_modal')">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button class="btn btn-success" onclick="updateTag(this)">
+                        <i class="fas fa-save"></i> Update Tag
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Merge Tags Modal -->
+    <div class="modal" id="merge_tags_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-code-merge"></i> Merge Tags</h3>
+                    <button class="modal-close" onclick="closeModal('merge_tags_modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        Select the target tag that will keep all posts. Other selected tags will be deleted.
+                    </p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Target Tag (keep this one)</label>
+                        <div class="tag-select-list" id="merge-target-list">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tags to Merge (will be deleted)</label>
+                        <div id="merge-source-list" style="padding: 1rem; background: var(--dashboard-surface); border-radius: var(--radius-md); border: 1px solid var(--card-border);">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeModal('merge_tags_modal')">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button class="btn btn-danger" onclick="performMerge(this)">
+                        <i class="fas fa-code-merge"></i> Merge Tags
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script>
+        // Global variables
+        let currentEditTagId = null;
+        let selectedTags = new Set();
+        let allTags = [];
+        let mergeTargetTag = null;
+
+        // API Configuration
+        const API_BASE = '/api/v1';
+        const getAuthHeaders = () => {
+            const token = localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token');
+            return {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            };
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTags();
+            loadStats();
+        });
+
+        // Modal functions
+        function showAddTagModal() {
+            document.getElementById('add_tag_modal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/blog/tags`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load stats');
+                
+                const responseData = await response.json();
+                const tags = responseData.data || responseData;
+                
+                // Ensure tags is an array
+                const tagsArray = Array.isArray(tags) ? tags : [];
+                
+                document.getElementById('total-tags').textContent = tagsArray.length;
+                document.getElementById('used-tags').textContent = tagsArray.filter(t => t.usage_count > 0).length;
+                document.getElementById('unused-tags').textContent = tagsArray.filter(t => !t.usage_count || t.usage_count === 0).length;
+                document.getElementById('total-usages').textContent = tagsArray.reduce((sum, t) => sum + (t.usage_count || 0), 0);
+
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // HTML escaping for security
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.toString().replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Utility functions
+        function generateSlug(name) {
+            return name
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]/g, '')
+                .trim()
+                .replace(/\s+/g, '-')
+                .substring(0, 50);
+        }
+
+        function updateSlugFromName(formType) {
+            const nameInput = document.getElementById(`${formType}_name`);
+            const slugInput = document.getElementById(`${formType}_slug`);
+            
+            if (nameInput && slugInput && nameInput.value) {
+                const slug = generateSlug(nameInput.value);
+                slugInput.value = slug;
+                slugInput.placeholder = slug;
+            }
+        }
+
+        // Load tags
+        async function loadTags() {
+            try {
+                const params = new URLSearchParams({
+                    per_page: 100
+                });
+
+                const search = document.getElementById('tag-search').value;
+                if (search) params.append('search', search);
+
+                const sortBy = document.getElementById('sort-filter').value;
+                if (sortBy) params.append('sort', sortBy);
+
+                const statusFilter = document.getElementById('status-filter').value;
+                
+                const response = await fetch(`${API_BASE}/blog/tags?${params}`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load tags');
+                
+                const responseData = await response.json();
+                let tags = responseData.data || responseData;
+                
+                // Ensure tags is an array
+                if (!Array.isArray(tags)) {
+                    tags = [];
+                }
+                
+                // Apply status filter
+                if (statusFilter === 'used') {
+                    tags = tags.filter(t => t.usage_count > 0);
+                } else if (statusFilter === 'unused') {
+                    tags = tags.filter(t => !t.usage_count || t.usage_count === 0);
+                }
+                
+                allTags = tags;
+                renderTags(tags);
+
+            } catch (error) {
+                console.error('Error loading tags:', error);
+                document.getElementById('tags-tbody').innerHTML = 
+                    '<tr><td colspan="6" style="text-align: center; color: var(--danger);">Error loading tags</td></tr>';
+            }
+        }
+        
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('tag-search').value = '';
+            document.getElementById('status-filter').value = '';
+            document.getElementById('sort-filter').value = 'name';
+            loadTags();
+        }
+        
+        // Cleanup unused tags
+        async function cleanupUnusedTags() {
+            const unusedTags = allTags.filter(t => !t.usage_count || t.usage_count === 0);
+            
+            if (unusedTags.length === 0) {
+                alert('No unused tags to cleanup!');
+                return;
+            }
+            
+            if (!confirm(`Are you sure you want to delete ${unusedTags.length} unused tags?`)) {
+                return;
+            }
+
+            try {
+                await Promise.all(unusedTags.map(tag => 
+                    fetch(`${API_BASE}/admin/blog/tags/${tag.id}`, {
+                        method: 'DELETE',
+                        headers: getAuthHeaders()
+                    })
+                ));
+
+                alert(`${unusedTags.length} unused tags deleted successfully!`);
+                loadTags();
+                loadStats();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error cleaning up tags: ' + error.message);
+            }
+        }
+
+        // Render tags in table
+        function renderTags(tags) {
+            const tbody = document.getElementById('tags-tbody');
+            
+            if (!tags || tags.length === 0) {
+                tbody.innerHTML = '<tr class="empty-state"><td colspan="6" style="text-align: center; padding: 3rem;"><i class="fas fa-tags" style="font-size: 3rem; opacity: 0.3; display: block; margin-bottom: 1rem;"></i><span style="color: var(--text-secondary);">No tags found</span></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            tags.forEach(tag => {
+                const row = document.createElement('tr');
+                const description = tag.description ? escapeHtml(tag.description) : '<span style="color: var(--text-muted);">No description</span>';
+                
+                row.innerHTML = `
+                    <td>
+                        <span class="tag-badge">${escapeHtml(tag.name)}</span>
+                    </td>
+                    <td><code style="font-size: 0.8125rem; background: var(--dashboard-surface); padding: 0.25rem 0.5rem; border-radius: 4px;">${escapeHtml(tag.slug)}</code></td>
+                    <td>${description}</td>
+                    <td><span class="usage-count-badge">${tag.usage_count || 0} posts</span></td>
+                    <td>${formatDate(tag.created_at)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="editTag(${tag.id})" title="Edit Tag">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteTag(${tag.id}, '${escapeHtml(tag.name)}')" title="Delete Tag">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Selection management
+        function updateSelection() {
+            selectedTags.clear();
+            document.querySelectorAll('.tag-checkbox:checked').forEach(checkbox => {
+                selectedTags.add(parseInt(checkbox.dataset.tagId));
+            });
+
+            const bulkActions = document.getElementById('bulk-actions');
+            const selectedCount = document.getElementById('selected-count');
+            
+            if (selectedTags.size > 0) {
+                bulkActions.classList.add('show');
+                selectedCount.textContent = `${selectedTags.size} selected`;
+            } else {
+                bulkActions.classList.remove('show');
+            }
+
+            // Update header checkbox
+            const headerCheckbox = document.getElementById('header-select');
+            const allCheckboxes = document.querySelectorAll('.tag-checkbox');
+            headerCheckbox.checked = allCheckboxes.length > 0 && selectedTags.size === allCheckboxes.length;
+            headerCheckbox.indeterminate = selectedTags.size > 0 && selectedTags.size < allCheckboxes.length;
+        }
+
+        function toggleSelectAll() {
+            const headerCheckbox = document.getElementById('header-select');
+            const checkboxes = document.querySelectorAll('.tag-checkbox');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = headerCheckbox.checked;
+            });
+            
+            updateSelection();
+        }
+
+        // Add tag
+        async function addTag(button) {
+            const formData = collectFormData('kalenux-add');
+
+            // Handle slug generation
+            if (formData.name && (!formData.slug || !formData.slug.trim())) {
+                formData.slug = generateSlug(formData.name);
+            }
+
+            // Basic validation
+            if (!formData.name?.trim()) {
+                alert('Tag name is required');
+                return;
+            }
+
+            // Set loading state
+            button.disabled = true;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="icon-loading"></span><p>Creating...</p>';
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/blog/tags`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to create tag');
+                }
+
+                const result = await response.json();
+                alert(result.message || 'Tag created successfully!');
+                clearAddForm();
+                closeModal('add_tag_modal');
+                loadTags();
+                loadStats();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error creating tag: ' + error.message);
+            } finally {
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        }
+
+        // Edit tag
+        async function editTag(tagId) {
+            currentEditTagId = tagId;
+            
+            try {
+                const response = await fetch(`${API_BASE}/blog/tags/${tagId}`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load tag');
+
+                const data = await response.json();
+                populateEditForm(data);
+                document.getElementById('edit_tag_modal').style.display = 'flex';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error loading tag: ' + error.message);
+            }
+        }
+
+        // Update tag
+        async function updateTag(button) {
+            if (!currentEditTagId) return;
+            
+            const formData = collectFormData('kalenux-change');
+
+            // Handle slug generation
+            if (formData.name && (!formData.slug || !formData.slug.trim())) {
+                formData.slug = generateSlug(formData.name);
+            }
+
+            // Basic validation
+            if (!formData.name?.trim()) {
+                alert('Tag name is required');
+                return;
+            }
+
+            // Set loading state
+            button.disabled = true;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="icon-loading"></span><p>Updating...</p>';
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/blog/tags/${currentEditTagId}`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to update tag');
+                }
+
+                const result = await response.json();
+                alert(result.message || 'Tag updated successfully!');
+                closeModal('edit_tag_modal');
+                loadTags();
+                loadStats();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error updating tag: ' + error.message);
+            } finally {
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        }
+
+        // Delete tag
+        async function deleteTag(tagId, tagName) {
+            if (!confirm(`Are you sure you want to delete "${tagName}"? It will be removed from all posts.`)) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/blog/tags/${tagId}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to delete tag');
+                }
+
+                const result = await response.json();
+                alert(result.message || 'Tag deleted successfully!');
+                loadTags();
+                loadStats();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error deleting tag: ' + error.message);
+            }
+        }
+
+        // Utility functions
+        function collectFormData(className) {
+            const formData = {};
+            document.querySelectorAll(`.${className}`).forEach(input => {
+                const name = input.getAttribute('data-name');
+                if (name) {
+                    const value = input.value ? input.value.trim() : '';
+                    if (value) {
+                        formData[name] = value;
+                    }
+                }
+            });
+            return formData;
+        }
+
+        function populateEditForm(data) {
+            document.getElementById('edit_name').value = data.name || '';
+            document.getElementById('edit_slug').value = data.slug || '';
+            document.getElementById('edit_description').value = data.description || '';
+        }
+
+        function clearAddForm() {
+            document.querySelectorAll('.kalenux-add').forEach(input => {
+                input.value = '';
+            });
+            document.getElementById('add_slug').placeholder = 'auto-generated-from-name';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Header dropdown and action buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logout button in dropdown
+            const logoutBtnHeader = document.getElementById('logout-btn-header');
+            if (logoutBtnHeader) {
+                logoutBtnHeader.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to sign out?')) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refreshToken');
+                        window.location.href = '/users/admin/login';
+                    }
+                });
+            }
+
+            // Notification button click
+            const notificationBtn = document.querySelectorAll('.header-action-btn')[0];
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    alert('Notifications feature coming soon!');
+                });
+            }
+
+            // Messages button click
+            const messagesBtn = document.querySelectorAll('.header-action-btn')[1];
+            if (messagesBtn) {
+                messagesBtn.addEventListener('click', function() {
+                    window.location.href = '/users/admin/messages';
+                });
+            }
+
+            // Settings button click
+            const settingsBtn = document.querySelectorAll('.header-action-btn')[2];
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', function() {
+                    alert('Quick settings coming soon!');
+                });
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const profileDropdown = document.querySelector('.profile-dropdown');
+                const adminProfile = document.querySelector('.admin-profile');
+                
+                if (profileDropdown && !adminProfile.contains(e.target)) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

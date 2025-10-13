@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Management - IQ Test Admin</title>
+    <link rel="stylesheet" href="/css/users/admin/general.css">
+    <link rel="stylesheet" href="/css/users/admin/blog.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        !panel_menu!
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-edit"></i> Blog Management</h1>
+                    <p><i class="fas fa-newspaper"></i> Create and manage blog posts for your IQ Test platform</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="header-action-btn" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <button class="header-action-btn" title="Messages">
+                            <i class="fas fa-envelope"></i>
+                            <span class="badge">5</span>
+                        </button>
+                        <button class="header-action-btn" title="Settings">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                    <div class="admin-profile">
+                        <div class="admin-profile-info">
+                            <span>Admin User</span>
+                            <small>Administrator</small>
+                        </div>
+                        <i class="fas fa-user-circle"></i>
+                        <div class="status-indicator"></div>
+                        
+                        <!-- Profile Dropdown -->
+                        <div class="profile-dropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="dropdown-name">Admin User</div>
+                                <div class="dropdown-email">admin@whats-your-iq.com</div>
+                            </div>
+                            <div class="dropdown-menu">
+                                <a href="/users/admin/profile" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <a href="/users/admin/settings" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Account Settings</span>
+                                </a>
+                                <a href="/users/admin/preferences" class="dropdown-item">
+                                    <i class="fas fa-palette"></i>
+                                    <span>Preferences</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="/users/admin/help" class="dropdown-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </a>
+                                <a href="/users/admin/activity" class="dropdown-item">
+                                    <i class="fas fa-history"></i>
+                                    <span>Activity Log</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" id="logout-btn-header" class="dropdown-item danger">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="admin-main-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Total Posts</div>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" id="total-posts">24</div>
+                        <div class="stat-card-change neutral">
+                            <i class="fas fa-minus"></i>
+                            <span>All content</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Published</div>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" id="published-posts">18</div>
+                        <div class="stat-card-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Active posts</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Draft</div>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" id="draft-posts">4</div>
+                        <div class="stat-card-change neutral">
+                            <i class="fas fa-clock"></i>
+                            <span>In progress</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Categories</div>
+                            <div class="stat-card-icon">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" id="total-categories">6</div>
+                        <div class="stat-card-change neutral">
+                            <i class="fas fa-list"></i>
+                            <span>Topics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label for="status-filter" class="form-label">Status:</label>
+                            <select id="status-filter" class="form-control form-select">
+                                <option value="">All Status</option>
+                                <option value="published">Published</option>
+                                <option value="draft">Draft</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="category-filter" class="form-label">Category:</label>
+                            <select id="category-filter" class="form-control form-select">
+                                <option value="">All Categories</option>
+                                <option value="tips">IQ Testing Tips</option>
+                                <option value="psychology">Psychology</option>
+                                <option value="training">Brain Training</option>
+                                <option value="research">Research</option>
+                                <option value="news">News</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="search-filter" class="form-label">Search:</label>
+                            <input type="text" id="search-filter" class="form-control" placeholder="Search posts...">
+                        </div>
+                        <div class="filter-group">
+                            <label for="limit-filter" class="form-label">Show:</label>
+                            <select id="limit-filter" class="form-control form-select">
+                                <option value="10">10</option>
+                                <option value="20" selected>20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <button id="apply-search" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <button id="clear-filters" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Blog Posts Table -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">
+                            <i class="fas fa-table"></i>
+                            Blog Posts
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button id="add-post-btn" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Add Post
+                            </button>
+                            <button id="export-btn" class="btn btn-outline-primary">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <button id="refresh-btn" class="btn btn-outline-primary">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <table id="blog-table" class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Author</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="blog-table-body">
+                            <tr>
+                                <td>
+                                    <strong>Understanding IQ Tests: A Comprehensive Guide</strong>
+                                    <br>
+                                    <small class="text-muted">Learn about the fundamentals of IQ testing and how to interpret results.</small>
+                                </td>
+                                <td>IQ Testing Tips</td>
+                                <td>
+                                    <span class="status-badge active">
+                                        Published
+                                    </span>
+                                </td>
+                                <td>Dr. Smith</td>
+                                <td>2024-01-15</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>The Psychology Behind Intelligence Testing</strong>
+                                    <br>
+                                    <small class="text-muted">Exploring the psychological principles that underlie intelligence assessment.</small>
+                                </td>
+                                <td>Psychology</td>
+                                <td>
+                                    <span class="status-badge active">
+                                        Published
+                                    </span>
+                                </td>
+                                <td>Dr. Johnson</td>
+                                <td>2024-01-12</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Brain Training Exercises for Better Performance</strong>
+                                    <br>
+                                    <small class="text-muted">Effective exercises to improve cognitive function and test performance.</small>
+                                </td>
+                                <td>Brain Training</td>
+                                <td>
+                                    <span class="status-badge pending">
+                                        Draft
+                                    </span>
+                                </td>
+                                <td>Admin User</td>
+                                <td>2024-01-10</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Post Modal -->
+    <div id="post-modal" class="modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title">Add New Post</h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="post-form">
+                        <input type="hidden" id="post-id">
+                        
+                        <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <label for="post-title" class="form-label">Post Title *</label>
+                                <input type="text" id="post-title" class="form-control" required placeholder="Enter post title">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="post-status" class="form-label">Status *</label>
+                                <select id="post-status" class="form-control form-select" required>
+                                    <option value="draft">Draft</option>
+                                    <option value="published">Published</option>
+                                    <option value="archived">Archived</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="post-category" class="form-label">Category *</label>
+                                <select id="post-category" class="form-control form-select" required>
+                                    <option value="">Select Category</option>
+                                    <option value="tips">IQ Testing Tips</option>
+                                    <option value="psychology">Psychology</option>
+                                    <option value="training">Brain Training</option>
+                                    <option value="research">Research</option>
+                                    <option value="news">News</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="post-author" class="form-label">Author *</label>
+                                <input type="text" id="post-author" class="form-control" required placeholder="Author name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="post-excerpt" class="form-label">Excerpt</label>
+                            <textarea id="post-excerpt" class="form-control" rows="3" placeholder="Brief description of the post"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="post-tags" class="form-label">Tags</label>
+                            <input type="text" id="post-tags" class="form-control" placeholder="Separate tags with commas">
+                            <small class="text-muted">Example: IQ test, cognitive, psychology</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="post-image" class="form-label">Featured Image URL</label>
+                            <input type="url" id="post-image" class="form-control" placeholder="https://example.com/image.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Content *</label>
+                            <div id="editor-container" class="quill-container"></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="post-meta-title" class="form-label">Meta Title</label>
+                                <input type="text" id="post-meta-title" class="form-control" placeholder="SEO title">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="post-meta-description" class="form-label">Meta Description</label>
+                                <input type="text" id="post-meta-description" class="form-control" placeholder="SEO description">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="savePost()">
+                        <i class="fas fa-save"></i> Save Post
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Confirm Delete</h3>
+                    <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this post? This action cannot be undone.</p>
+                    <p><strong id="delete-post-title"></strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Quill Editor -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    
+    <!-- JavaScript for functionality -->
+    <script>
+        let quill;
+        let currentDeleteId = null;
+        let posts = [];
+        let categories = [];
+        let currentPage = 1;
+        let totalPages = 1;
+
+        // API Configuration
+        const API_BASE = '/api/v1';
+        const getAuthHeaders = () => {
+            // Check both localStorage and sessionStorage for token
+            const token = localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token');
+            return {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            };
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Quill editor
+            quill = new Quill('#editor-container', {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        [{ 'indent': '-1'}, { 'indent': '+1' }],
+                        ['link', 'image', 'video'],
+                        [{ 'color': [] }, { 'background': [] }],
+                        [{ 'align': [] }],
+                        ['clean']
+                    ]
+                },
+                placeholder: 'Write your blog post content here...'
+            });
+
+            // Add event listeners
+            document.getElementById('apply-search').addEventListener('click', applyFilters);
+            document.getElementById('clear-filters').addEventListener('click', clearFilters);
+            document.getElementById('add-post-btn').addEventListener('click', openAddModal);
+            document.getElementById('export-btn').addEventListener('click', exportPosts);
+            document.getElementById('refresh-btn').addEventListener('click', refreshTable);
+
+            // Initialize page data
+            loadCategories();
+            loadPosts();
+            updateStats();
+        });
+
+        // Load categories from API
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_BASE}/blog/categories`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load categories');
+                
+                const data = await response.json();
+                // Handle both array response and {data: []} response
+                categories = Array.isArray(data) ? data : (data.data || []);
+                updateCategorySelects();
+
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                showNotification('Error loading categories', 'error');
+            }
+        }
+
+        function updateCategorySelects() {
+            const filterSelect = document.getElementById('category-filter');
+            const formSelect = document.getElementById('post-category');
+
+            // Clear existing options except "All Categories"
+            filterSelect.innerHTML = '<option value="">All Categories</option>';
+            formSelect.innerHTML = '<option value="">Select Category</option>';
+
+            categories.forEach(cat => {
+                const filterOption = document.createElement('option');
+                filterOption.value = cat.id;
+                filterOption.textContent = cat.name;
+                filterSelect.appendChild(filterOption);
+
+                const formOption = document.createElement('option');
+                formOption.value = cat.id;
+                formOption.textContent = cat.name;
+                formSelect.appendChild(formOption);
+            });
+        }
+
+        // Load posts from API
+        async function loadPosts() {
+            try {
+                showLoading();
+
+                const params = new URLSearchParams({
+                    page: currentPage,
+                    per_page: document.getElementById('limit-filter').value || 20
+                });
+
+                // Add filters
+                const status = document.getElementById('status-filter').value;
+                if (status) params.append('status', status);
+
+                const category = document.getElementById('category-filter').value;
+                if (category) params.append('category', category);
+
+                const search = document.getElementById('search-filter').value;
+                if (search) params.append('search', search);
+
+                const response = await fetch(`${API_BASE}/admin/blog/posts?${params}`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load posts');
+                
+                const responseData = await response.json();
+                
+                // API returns { success: true, data: {...} }
+                const data = responseData.data || responseData;
+                
+                // Handle paginated response
+                if (data.data) {
+                    posts = data.data;
+                    totalPages = data.total_pages || 1;
+                    currentPage = data.current_page || 1;
+                } else if (Array.isArray(data)) {
+                    posts = data;
+                } else {
+                    posts = [];
+                }
+
+                renderPosts();
+                updateStats();
+                hideLoading();
+
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                hideLoading();
+                showNotification('Error loading blog posts', 'error');
+                // Show empty state
+                document.getElementById('blog-table-body').innerHTML = 
+                    '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Error loading posts. Please try again.</td></tr>';
+            }
+        }
+
+        function renderPosts() {
+            const tbody = document.getElementById('blog-table-body');
+            
+            if (!posts || posts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No posts found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            
+            posts.forEach(post => {
+                const row = document.createElement('tr');
+                const categoryName = getCategoryNameById(post.category_id);
+                const statusClass = post.status === 'published' ? 'active' : 'pending';
+                const statusText = post.status.charAt(0).toUpperCase() + post.status.slice(1);
+                const author = post.author ? post.author.name : 'Unknown';
+                const created = formatDate(post.created_at);
+
+                row.innerHTML = `
+                    <td>
+                        <strong>${escapeHtml(post.title)}</strong>
+                        <br>
+                        <small class="text-muted">${escapeHtml(post.excerpt || '')}</small>
+                    </td>
+                    <td>${escapeHtml(categoryName)}</td>
+                    <td>
+                        <span class="status-badge ${statusClass}">
+                            ${statusText}
+                        </span>
+                    </td>
+                    <td>${escapeHtml(author)}</td>
+                    <td>${created}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="editPost(${post.id})" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deletePost(${post.id})" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getCategoryNameById(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            return category ? category.name : 'Uncategorized';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.toString().replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function applyFilters() {
+            currentPage = 1;
+            loadPosts();
+        }
+
+        function clearFilters() {
+            document.getElementById('status-filter').value = '';
+            document.getElementById('category-filter').value = '';
+            document.getElementById('search-filter').value = '';
+            document.getElementById('limit-filter').value = '20';
+            currentPage = 1;
+            loadPosts();
+        }
+
+        // Update stats from loaded posts
+        function updateStats() {
+            const total = posts.length;
+            const published = posts.filter(p => p.status === 'published').length;
+            const draft = posts.filter(p => p.status === 'draft').length;
+
+            document.getElementById('total-posts').textContent = total;
+            document.getElementById('published-posts').textContent = published;
+            document.getElementById('draft-posts').textContent = draft;
+            document.getElementById('total-categories').textContent = categories.length;
+        }
+
+        function openAddModal() {
+            document.getElementById('modal-title').textContent = 'Add New Post';
+            document.getElementById('post-form').reset();
+            document.getElementById('post-id').value = '';
+            quill.setContents([]);
+            document.getElementById('post-modal').style.display = 'flex';
+        }
+
+        async function editPost(id) {
+            try {
+                showLoading();
+
+                const response = await fetch(`${API_BASE}/admin/blog/posts/${id}`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load post');
+
+                const post = await response.json();
+
+                document.getElementById('modal-title').textContent = 'Edit Post';
+                document.getElementById('post-id').value = post.id;
+                document.getElementById('post-title').value = post.title || '';
+                document.getElementById('post-status').value = post.status || 'draft';
+                document.getElementById('post-category').value = post.category_id || '';
+                document.getElementById('post-author').value = post.author ? post.author.name : '';
+                document.getElementById('post-excerpt').value = post.excerpt || '';
+                document.getElementById('post-tags').value = Array.isArray(post.tags) ? post.tags.join(', ') : '';
+                document.getElementById('post-image').value = post.featured_image || '';
+                document.getElementById('post-meta-title').value = post.meta_title || '';
+                document.getElementById('post-meta-description').value = post.meta_description || '';
+                quill.root.innerHTML = post.content || '';
+                
+                document.getElementById('post-modal').style.display = 'flex';
+                hideLoading();
+
+            } catch (error) {
+                console.error('Error loading post:', error);
+                hideLoading();
+                showNotification('Error loading post for editing', 'error');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('post-modal').style.display = 'none';
+        }
+
+        async function savePost() {
+            const id = document.getElementById('post-id').value;
+            const title = document.getElementById('post-title').value;
+            const status = document.getElementById('post-status').value;
+            const category_id = parseInt(document.getElementById('post-category').value);
+            const excerpt = document.getElementById('post-excerpt').value;
+            const tags = document.getElementById('post-tags').value.split(',').map(t => t.trim()).filter(t => t);
+            const featured_image = document.getElementById('post-image').value;
+            const meta_title = document.getElementById('post-meta-title').value;
+            const meta_description = document.getElementById('post-meta-description').value;
+            const content = quill.root.innerHTML;
+
+            if (!title || !status || !category_id) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const postData = {
+                    title,
+                    status,
+                    category_id,
+                    excerpt,
+                    content,
+                    featured_image,
+                    meta_title,
+                    meta_description,
+                    tags
+                };
+
+                const url = id 
+                    ? `${API_BASE}/admin/blog/posts/${id}`
+                    : `${API_BASE}/admin/blog/posts`;
+
+                const method = id ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method,
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(postData)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to save post');
+                }
+
+                const result = await response.json();
+
+                hideLoading();
+                closeModal();
+                loadPosts();
+                showNotification(result.message || 'Post saved successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error saving post:', error);
+                hideLoading();
+                showNotification(error.message || 'Error saving post', 'error');
+            }
+        }
+
+        function deletePost(id, title) {
+            currentDeleteId = id;
+            document.getElementById('delete-post-title').textContent = title;
+            document.getElementById('delete-modal').style.display = 'flex';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').style.display = 'none';
+            currentDeleteId = null;
+        }
+
+        async function confirmDelete() {
+            if (!currentDeleteId) return;
+
+            showLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/blog/posts/${currentDeleteId}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to delete post');
+                }
+
+                const result = await response.json();
+
+                hideLoading();
+                closeDeleteModal();
+                loadPosts();
+                showNotification(result.message || 'Post deleted successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error deleting post:', error);
+                hideLoading();
+                showNotification(error.message || 'Error deleting post', 'error');
+            }
+        }
+
+        function getCategoryName(value) {
+            const categories = {
+                'tips': 'IQ Testing Tips',
+                'psychology': 'Psychology',
+                'training': 'Brain Training',
+                'research': 'Research',
+                'news': 'News'
+            };
+            return categories[value] || value;
+        }
+
+        function exportPosts() {
+            if (posts.length === 0) {
+                showNotification('No posts to export', 'info');
+                return;
+            }
+
+            const dataStr = JSON.stringify(posts, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `blog-posts-export-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            showNotification('Posts exported successfully!', 'success');
+        }
+
+        function refreshTable() {
+            loadPosts();
+            showNotification('Table refreshed!', 'info');
+        }
+
+        function showLoading() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading-overlay').style.display = 'none';
+        }
+
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const postModal = document.getElementById('post-modal');
+            const deleteModal = document.getElementById('delete-modal');
+            if (event.target === postModal) {
+                closeModal();
+            }
+            if (event.target === deleteModal) {
+                closeDeleteModal();
+            }
+        }
+
+        // Header dropdown and action buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logout button in dropdown
+            const logoutBtnHeader = document.getElementById('logout-btn-header');
+            if (logoutBtnHeader) {
+                logoutBtnHeader.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to sign out?')) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refreshToken');
+                        window.location.href = '/users/admin/login';
+                    }
+                });
+            }
+
+            // Notification button click
+            const notificationBtn = document.querySelectorAll('.header-action-btn')[0];
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    alert('Notifications feature coming soon!');
+                });
+            }
+
+            // Messages button click
+            const messagesBtn = document.querySelectorAll('.header-action-btn')[1];
+            if (messagesBtn) {
+                messagesBtn.addEventListener('click', function() {
+                    window.location.href = '/users/admin/messages';
+                });
+            }
+
+            // Settings button click
+            const settingsBtn = document.querySelectorAll('.header-action-btn')[2];
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', function() {
+                    alert('Quick settings coming soon!');
+                });
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const profileDropdown = document.querySelector('.profile-dropdown');
+                const adminProfile = document.querySelector('.admin-profile');
+                
+                if (profileDropdown && !adminProfile.contains(e.target)) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

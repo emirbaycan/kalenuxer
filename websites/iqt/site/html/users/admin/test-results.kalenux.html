@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Results - IQ Test Platform</title>
+    <link rel="stylesheet" href="/css/users/admin/general.css">
+    <link rel="stylesheet" href="/css/users/admin/test-results.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="admin-container">
+        !panel_menu!
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-chart-line"></i> Test Results</h1>
+                    <p><i class="fas fa-brain"></i> View and analyze IQ test results from users</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="header-action-btn" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <button class="header-action-btn" title="Messages">
+                            <i class="fas fa-envelope"></i>
+                            <span class="badge">5</span>
+                        </button>
+                        <button class="header-action-btn" title="Settings">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                    <div class="admin-profile">
+                        <div class="admin-profile-info">
+                            <span>Admin User</span>
+                            <small>Administrator</small>
+                        </div>
+                        <i class="fas fa-user-circle"></i>
+                        <div class="status-indicator"></div>
+                        
+                        <!-- Profile Dropdown -->
+                        <div class="profile-dropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="dropdown-name">Admin User</div>
+                                <div class="dropdown-email">admin@whats-your-iq.com</div>
+                            </div>
+                            <div class="dropdown-menu">
+                                <a href="/users/admin/profile" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <a href="/users/admin/settings" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Account Settings</span>
+                                </a>
+                                <a href="/users/admin/preferences" class="dropdown-item">
+                                    <i class="fas fa-palette"></i>
+                                    <span>Preferences</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="/users/admin/help" class="dropdown-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </a>
+                                <a href="/users/admin/activity" class="dropdown-item">
+                                    <i class="fas fa-history"></i>
+                                    <span>Activity Log</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" id="logout-btn-header" class="dropdown-item danger">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="admin-main-content">
+                <!-- Stats Section -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div>
+                                <h3 id="total-tests">0</h3>
+                                <p>Total Tests</p>
+                            </div>
+                            <i class="fas fa-clipboard-list stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div>
+                                <h3 id="completed-tests">0</h3>
+                                <p>Completed</p>
+                            </div>
+                            <i class="fas fa-check-circle stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div>
+                                <h3 id="avg-score">0</h3>
+                                <p>Average IQ Score</p>
+                            </div>
+                            <i class="fas fa-star stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div>
+                                <h3 id="today-tests">0</h3>
+                                <p>Tests Today</p>
+                            </div>
+                            <i class="fas fa-calendar-day stat-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-bar"></i> Score Distribution</h3>
+                            <button class="btn btn-outline btn-sm" onclick="refreshCharts()">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="score-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-line"></i> Tests Over Time</h3>
+                            <select id="time-range-filter" class="form-control form-control-sm" onchange="updateTimeChart()">
+                                <option value="7">Last 7 Days</option>
+                                <option value="30" selected>Last 30 Days</option>
+                                <option value="90">Last 90 Days</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="tests-over-time-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters Section -->
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label>Search</label>
+                            <input type="text" id="search-filter" placeholder="Email or Session ID..." class="form-control" onkeyup="debounceFilter()">
+                        </div>
+                        <div class="filter-group">
+                            <label>Test Type</label>
+                            <select id="test-type-filter" class="form-control" onchange="applyFilters()">
+                                <option value="">All Types</option>
+                                <option value="full">Full Test</option>
+                                <option value="quick">Quick Test</option>
+                                <option value="practice">Practice</option>
+                                <option value="timed">Timed</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select id="status-filter" class="form-control" onchange="applyFilters()">
+                                <option value="">All Status</option>
+                                <option value="completed">Completed</option>
+                                <option value="abandoned">Abandoned</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Payment Status</label>
+                            <select id="payment-filter" class="form-control" onchange="applyFilters()">
+                                <option value="">All</option>
+                                <option value="paid">Paid</option>
+                                <option value="pending">Pending</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Date Range</label>
+                            <input type="date" id="date-from" class="form-control" onchange="applyFilters()">
+                        </div>
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <input type="date" id="date-to" class="form-control" onchange="applyFilters()">
+                        </div>
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-outline" onclick="clearFilters()">
+                                <i class="fas fa-times"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Results Table -->
+                <div class="table-section">
+                    <div class="table-header">
+                        <h3><i class="fas fa-list"></i> Test Results</h3>
+                        <div class="table-actions">
+                            <button class="btn btn-outline" onclick="exportResults()">
+                                <i class="fas fa-download"></i> Export CSV
+                            </button>
+                            <button class="btn btn-primary" onclick="loadTestResults()">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="results-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Email</th>
+                                    <th>Test Type</th>
+                                    <th>IQ Score</th>
+                                    <th>Percentile</th>
+                                    <th>Accuracy</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th>Payment</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="results-tbody">
+                                <tr class="loading-row">
+                                    <td colspan="11" style="text-align: center; padding: 2rem;">
+                                        <div class="spinner" style="margin: 0 auto;"></div>
+                                        <p style="margin-top: 1rem; color: var(--text-secondary);">Loading test results...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <button class="pagination-btn" onclick="changePage(-1)">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <span id="page-info">Page 1 of 1</span>
+                        <button class="pagination-btn" onclick="changePage(1)">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div><!-- /.admin-main-content -->
+        </main>
+    </div>
+
+    <!-- View Details Modal -->
+    <div class="modal" id="view_details_modal">
+        <div class="modal-dialog modal-large">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-info-circle"></i> Test Result Details</h3>
+                    <button class="modal-close" onclick="closeModal('view_details_modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="details-content">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeModal('view_details_modal')">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // API Configuration
+        const API_BASE = '/api/v1';
+        const getAuthHeaders = () => {
+            const token = localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token');
+            return {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            };
+        };
+
+        // Global variables
+        let currentPage = 1;
+        let totalPages = 1;
+        let pageSize = 20;
+        let allResults = [];
+        let filteredResults = [];
+        let filterTimeout = null;
+        let scoreChart = null;
+        let timeChart = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadTestResults();
+            initCharts();
+        });
+
+        // Modal functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/test-results/stats`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) {
+                    // If endpoint doesn't exist, calculate from results
+                    await calculateStatsFromResults();
+                    return;
+                }
+
+                const stats = await response.json();
+                updateStatsDisplay(stats);
+
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                await calculateStatsFromResults();
+            }
+        }
+
+        async function calculateStatsFromResults() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/test-results?per_page=1000`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load results');
+                
+                const results = await response.json();
+                const data = results.data || results;
+                
+                const completed = data.filter(r => r.status === 'completed');
+                const today = new Date().toDateString();
+                const todayTests = data.filter(r => new Date(r.created_at).toDateString() === today);
+                const avgScore = completed.length > 0 
+                    ? Math.round(completed.reduce((sum, r) => sum + r.overall_score, 0) / completed.length)
+                    : 0;
+
+                updateStatsDisplay({
+                    total: data.length,
+                    completed: completed.length,
+                    average_score: avgScore,
+                    today: todayTests.length
+                });
+
+            } catch (error) {
+                console.error('Error calculating stats:', error);
+            }
+        }
+
+        function updateStatsDisplay(stats) {
+            document.getElementById('total-tests').textContent = stats.total || 0;
+            document.getElementById('completed-tests').textContent = stats.completed || 0;
+            document.getElementById('avg-score').textContent = stats.average_score || 0;
+            document.getElementById('today-tests').textContent = stats.today || 0;
+        }
+
+        // Load test results
+        async function loadTestResults() {
+            try {
+                const params = new URLSearchParams({
+                    page: currentPage,
+                    per_page: pageSize
+                });
+
+                // Add filters
+                const search = document.getElementById('search-filter').value;
+                if (search) params.append('search', search);
+
+                const testType = document.getElementById('test-type-filter').value;
+                if (testType) params.append('test_type', testType);
+
+                const status = document.getElementById('status-filter').value;
+                if (status) params.append('status', status);
+
+                const payment = document.getElementById('payment-filter').value;
+                if (payment) params.append('payment_status', payment);
+
+                const dateFrom = document.getElementById('date-from').value;
+                if (dateFrom) params.append('date_from', dateFrom);
+
+                const dateTo = document.getElementById('date-to').value;
+                if (dateTo) params.append('date_to', dateTo);
+
+                const response = await fetch(`${API_BASE}/admin/test-results?${params}`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load test results');
+                
+                const data = await response.json();
+                
+                // Handle both paginated and non-paginated responses
+                if (data.data) {
+                    allResults = data.data;
+                    totalPages = data.total_pages || 1;
+                } else {
+                    allResults = data;
+                    totalPages = Math.ceil(allResults.length / pageSize);
+                }
+                
+                filteredResults = allResults;
+                renderResults(filteredResults);
+                updatePagination();
+
+            } catch (error) {
+                console.error('Error loading test results:', error);
+                document.getElementById('results-tbody').innerHTML = 
+                    '<tr><td colspan="11" style="text-align: center; color: var(--danger);">Error loading test results. Please check the API endpoint.</td></tr>';
+            }
+        }
+
+        // Render results in table
+        function renderResults(results) {
+            const tbody = document.getElementById('results-tbody');
+            
+            if (!results || results.length === 0) {
+                tbody.innerHTML = '<tr class="empty-state"><td colspan="11" style="text-align: center; padding: 3rem;"><i class="fas fa-clipboard-list" style="font-size: 3rem; opacity: 0.3; display: block; margin-bottom: 1rem;"></i><span style="color: var(--text-secondary);">No test results found</span></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><code>#${result.id}</code></td>
+                    <td>${result.email || 'N/A'}</td>
+                    <td><span class="type-badge type-${result.test_type}">${formatTestType(result.test_type)}</span></td>
+                    <td><strong class="score-value">${result.overall_score}</strong></td>
+                    <td>${result.percentile}%</td>
+                    <td>${(result.accuracy * 100).toFixed(1)}%</td>
+                    <td>${formatDuration(result.duration)}</td>
+                    <td><span class="status-badge status-${result.status}">${result.status}</span></td>
+                    <td><span class="payment-badge payment-${result.payment_status}">${result.payment_status}</span></td>
+                    <td>${formatDate(result.created_at)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn view" onclick="viewDetails(${result.id})" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn download" onclick="downloadReport(${result.id})" title="Download Report">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteResult(${result.id})" title="Delete Result">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // View details modal
+        async function viewDetails(resultId) {
+            try {
+                const response = await fetch(`${API_BASE}/admin/test-results/${resultId}`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to load result details');
+                
+                const result = await response.json();
+                displayDetailsModal(result);
+
+            } catch (error) {
+                console.error('Error loading details:', error);
+                alert('Error loading test result details');
+            }
+        }
+
+        function displayDetailsModal(result) {
+            const content = document.getElementById('details-content');
+            
+            // Parse domain scores
+            let domainScores = {};
+            try {
+                domainScores = JSON.parse(result.domain_scores || '{}');
+            } catch (e) {
+                console.error('Error parsing domain scores:', e);
+            }
+
+            // Build domain scores HTML
+            let domainHTML = '';
+            for (const [domain, score] of Object.entries(domainScores)) {
+                domainHTML += `
+                    <div class="domain-score-item">
+                        <span class="domain-name">${formatDomain(domain)}</span>
+                        <div class="domain-bar">
+                            <div class="domain-bar-fill" style="width: ${(score / 200) * 100}%"></div>
+                        </div>
+                        <span class="domain-value">${score}</span>
+                    </div>
+                `;
+            }
+
+            content.innerHTML = `
+                <div class="details-grid">
+                    <div class="details-section">
+                        <h4><i class="fas fa-user"></i> User Information</h4>
+                        <div class="details-info">
+                            <div class="info-row">
+                                <span class="info-label">Email:</span>
+                                <span class="info-value">${result.email}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Session ID:</span>
+                                <span class="info-value"><code>${result.session_id}</code></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">User ID:</span>
+                                <span class="info-value">${result.user_id || 'Guest'}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Language:</span>
+                                <span class="info-value">${result.language.toUpperCase()}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h4><i class="fas fa-chart-bar"></i> Test Performance</h4>
+                        <div class="details-info">
+                            <div class="info-row">
+                                <span class="info-label">Test Type:</span>
+                                <span class="info-value"><span class="type-badge type-${result.test_type}">${formatTestType(result.test_type)}</span></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">IQ Score:</span>
+                                <span class="info-value"><strong style="font-size: 1.2em; color: var(--primary-light);">${result.overall_score}</strong></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Percentile:</span>
+                                <span class="info-value">${result.percentile}%</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Accuracy:</span>
+                                <span class="info-value">${(result.accuracy * 100).toFixed(1)}%</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Duration:</span>
+                                <span class="info-value">${formatDuration(result.duration)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h4><i class="fas fa-clock"></i> Timing Information</h4>
+                        <div class="details-info">
+                            <div class="info-row">
+                                <span class="info-label">Started:</span>
+                                <span class="info-value">${formatDateTime(result.start_time)}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Completed:</span>
+                                <span class="info-value">${formatDateTime(result.end_time)}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Created:</span>
+                                <span class="info-value">${formatDateTime(result.created_at)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h4><i class="fas fa-money-bill"></i> Payment Status</h4>
+                        <div class="details-info">
+                            <div class="info-row">
+                                <span class="info-label">Status:</span>
+                                <span class="info-value"><span class="status-badge status-${result.status}">${result.status}</span></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Payment:</span>
+                                <span class="info-value"><span class="payment-badge payment-${result.payment_status}">${result.payment_status}</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${domainHTML ? `
+                    <div class="details-section full-width">
+                        <h4><i class="fas fa-brain"></i> Domain Scores</h4>
+                        <div class="domain-scores">
+                            ${domainHTML}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+
+            document.getElementById('view_details_modal').style.display = 'flex';
+        }
+
+        // Download report
+        async function downloadReport(resultId) {
+            try {
+                const response = await fetch(`${API_BASE}/admin/test-results/${resultId}/report`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to download report');
+                
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `test-result-${resultId}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+            } catch (error) {
+                console.error('Error downloading report:', error);
+                alert('Report download not available yet');
+            }
+        }
+
+        // Delete result
+        async function deleteResult(resultId) {
+            if (!confirm('Are you sure you want to delete this test result? This action cannot be undone.')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/test-results/${resultId}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (!response.ok) throw new Error('Failed to delete result');
+                
+                alert('Test result deleted successfully!');
+                loadTestResults();
+                loadStats();
+
+            } catch (error) {
+                console.error('Error deleting result:', error);
+                alert('Error deleting test result');
+            }
+        }
+
+        // Export results to CSV
+        function exportResults() {
+            const results = filteredResults.length > 0 ? filteredResults : allResults;
+            
+            if (results.length === 0) {
+                alert('No results to export');
+                return;
+            }
+
+            const headers = ['ID', 'Email', 'Test Type', 'IQ Score', 'Percentile', 'Accuracy', 'Duration', 'Status', 'Payment', 'Date'];
+            const rows = results.map(r => [
+                r.id,
+                r.email,
+                r.test_type,
+                r.overall_score,
+                r.percentile,
+                (r.accuracy * 100).toFixed(1),
+                r.duration,
+                r.status,
+                r.payment_status,
+                new Date(r.created_at).toISOString()
+            ]);
+
+            let csv = headers.join(',') + '\n';
+            csv += rows.map(row => row.join(',')).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `test-results-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        // Filters
+        function debounceFilter() {
+            clearTimeout(filterTimeout);
+            filterTimeout = setTimeout(applyFilters, 500);
+        }
+
+        function applyFilters() {
+            currentPage = 1;
+            loadTestResults();
+        }
+
+        function clearFilters() {
+            document.getElementById('search-filter').value = '';
+            document.getElementById('test-type-filter').value = '';
+            document.getElementById('status-filter').value = '';
+            document.getElementById('payment-filter').value = '';
+            document.getElementById('date-from').value = '';
+            document.getElementById('date-to').value = '';
+            applyFilters();
+        }
+
+        // Pagination
+        function updatePagination() {
+            document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+        }
+
+        function changePage(delta) {
+            const newPage = currentPage + delta;
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                loadTestResults();
+            }
+        }
+
+        // Charts
+        function initCharts() {
+            initScoreChart();
+            initTimeChart();
+        }
+
+        function initScoreChart() {
+            const ctx = document.getElementById('score-distribution-chart').getContext('2d');
+            scoreChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['<70', '70-84', '85-99', '100-114', '115-129', '130+'],
+                    datasets: [{
+                        label: 'Number of Tests',
+                        data: [0, 0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(129, 140, 248, 0.6)',
+                        borderColor: 'rgba(129, 140, 248, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            updateScoreChart();
+        }
+
+        function initTimeChart() {
+            const ctx = document.getElementById('tests-over-time-chart').getContext('2d');
+            timeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Tests',
+                        data: [],
+                        borderColor: 'rgba(129, 140, 248, 1)',
+                        backgroundColor: 'rgba(129, 140, 248, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            updateTimeChart();
+        }
+
+        async function updateScoreChart() {
+            try {
+                const token = localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token');
+                const response = await fetch('/api/v1/admin/test-results?per_page=1000', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (!response.ok) return;
+                
+                const results = await response.json();
+                const data = results.data || results;
+                
+                const distribution = [0, 0, 0, 0, 0, 0];
+                data.forEach(r => {
+                    const score = r.overall_score;
+                    if (score < 70) distribution[0]++;
+                    else if (score < 85) distribution[1]++;
+                    else if (score < 100) distribution[2]++;
+                    else if (score < 115) distribution[3]++;
+                    else if (score < 130) distribution[4]++;
+                    else distribution[5]++;
+                });
+
+                scoreChart.data.datasets[0].data = distribution;
+                scoreChart.update();
+
+            } catch (error) {
+                console.error('Error updating score chart:', error);
+            }
+        }
+
+        async function updateTimeChart() {
+            const days = parseInt(document.getElementById('time-range-filter').value);
+            
+            try {
+                const token = localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token');
+                const response = await fetch('/api/v1/admin/test-results?per_page=1000', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (!response.ok) return;
+                
+                const responseData = await response.json();
+                const results = responseData.data || responseData;
+                const data = Array.isArray(results) ? results : (results.data || []);
+                
+                // Group by date
+                const dateMap = {};
+                const now = new Date();
+                for (let i = days - 1; i >= 0; i--) {
+                    const date = new Date(now);
+                    date.setDate(date.getDate() - i);
+                    const dateStr = date.toISOString().split('T')[0];
+                    dateMap[dateStr] = 0;
+                }
+
+                if (Array.isArray(data)) {
+                    data.forEach(r => {
+                        const dateStr = new Date(r.created_at).toISOString().split('T')[0];
+                        if (dateMap.hasOwnProperty(dateStr)) {
+                            dateMap[dateStr]++;
+                        }
+                    });
+                }
+
+                timeChart.data.labels = Object.keys(dateMap).map(d => formatDateShort(d));
+                timeChart.data.datasets[0].data = Object.values(dateMap);
+                timeChart.update();
+
+            } catch (error) {
+                console.error('Error updating time chart:', error);
+            }
+        }
+
+        function refreshCharts() {
+            updateScoreChart();
+            updateTimeChart();
+        }
+
+        // Utility functions
+        function formatTestType(type) {
+            const types = {
+                'full': 'Full Test',
+                'quick': 'Quick Test',
+                'practice': 'Practice',
+                'timed': 'Timed'
+            };
+            return types[type] || type;
+        }
+
+        function formatDomain(domain) {
+            return domain.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+
+        function formatDuration(ms) {
+            if (!ms) return 'N/A';
+            const minutes = Math.floor(ms / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            return `${minutes}m ${seconds}s`;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        function formatDateTime(dateString) {
+            if (!dateString) return 'Unknown';
+            const date = new Date(dateString);
+            return date.toLocaleString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatDateShort(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        // Header dropdown and action buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logout button in dropdown
+            const logoutBtnHeader = document.getElementById('logout-btn-header');
+            if (logoutBtnHeader) {
+                logoutBtnHeader.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to sign out?')) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refreshToken');
+                        window.location.href = '/users/admin/login';
+                    }
+                });
+            }
+
+            // Notification button click
+            const notificationBtn = document.querySelectorAll('.header-action-btn')[0];
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    alert('Notifications feature coming soon!');
+                });
+            }
+
+            // Messages button click
+            const messagesBtn = document.querySelectorAll('.header-action-btn')[1];
+            if (messagesBtn) {
+                messagesBtn.addEventListener('click', function() {
+                    window.location.href = '/users/admin/messages';
+                });
+            }
+
+            // Settings button click
+            const settingsBtn = document.querySelectorAll('.header-action-btn')[2];
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', function() {
+                    alert('Quick settings coming soon!');
+                });
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const profileDropdown = document.querySelector('.profile-dropdown');
+                const adminProfile = document.querySelector('.admin-profile');
+                
+                if (profileDropdown && !adminProfile.contains(e.target)) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
