@@ -422,15 +422,21 @@
 
                 if (!response.ok) throw new Error('Failed to load test results');
                 
-                const data = await response.json();
+                const responseData = await response.json();
+                
+                // API returns {success: true, data: {...}}
+                const data = responseData.data || responseData;
                 
                 // Handle both paginated and non-paginated responses
-                if (data.data) {
+                if (data.data && Array.isArray(data.data)) {
                     allResults = data.data;
                     totalPages = data.total_pages || 1;
-                } else {
+                } else if (Array.isArray(data)) {
                     allResults = data;
                     totalPages = Math.ceil(allResults.length / pageSize);
+                } else {
+                    allResults = [];
+                    totalPages = 1;
                 }
                 
                 filteredResults = allResults;
