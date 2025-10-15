@@ -1,8 +1,8 @@
 // Payment Management JavaScript
 
-class PaymentManager {
+class PaymentManager extends AdminCommon {
     constructor() {
-        this.apiBase = '/api/v1';
+        super(); // Call AdminCommon constructor
         this.currentPage = 1;
         this.perPage = 20;
         this.filters = {};
@@ -212,21 +212,9 @@ class PaymentManager {
         return methods[method] || method || 'Unknown';
     }
 
+    // Override formatCurrency to handle cents
     formatCurrency(amount) {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        }).format(amount / 100); // Convert cents to dollars
-    }
-
-    formatDate(dateString) {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
+        return super.formatCurrency(amount / 100); // Convert cents to dollars
     }
 
     updatePagination(meta) {
@@ -418,11 +406,10 @@ class PaymentManager {
             });
 
         const response = await fetch(`${this.apiBase}/admin/payments/export?${params}`, {
-            headers: {
-                // 'Authorization': `Bearer ${this.getToken()}`
-                'Content-Type': 'application/json'
-            }
-        });            if (response.ok) {
+            headers: this.getAuthHeaders()
+        });
+        
+        if (response.ok) {
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -444,142 +431,8 @@ class PaymentManager {
         }
     }
 
-    async apiCall(endpoint, options = {}) {
-        // Skip auth during development
-        // const token = this.getToken();
-        if (!token) {
-            window.location.href = '/users/admin/login';
-            throw new Error('No auth token');
-        }
-
-        const response = await fetch(`${this.apiBase}${endpoint}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-                ...options.headers
-            },
-            ...options
-        });
-
-        if (response.status === 401) {
-            localStorage.removeItem('admin_token');
-            sessionStorage.removeItem('admin_token');
-            window.location.href = '/users/admin/login';
-            throw new Error('Unauthorized');
-        }
-
-        if (!response.ok) {
-            const error = await response.json().catch(() => ({ message: 'Request failed' }));
-            throw new Error(error.message || 'Request failed');
-        }
-
-        const responseData = await response.json();
-        // Handle API wrapper: {success: true, data: {...}}
-        return responseData.data ? responseData : { data: responseData };
-    }
-
-    getToken() {
-        return localStorage.getItem('admin_token');
-    }
-
-    logout() {
-        if (confirm('Are you sure you want to logout?')) {
-            // localStorage.removeItem('admin_token');
-            // window.location.href = '/admin/login';
-            console.log('Logout clicked - auth disabled for development');
-        }
-    }
-
-    showLoading() {
-        document.getElementById('loading-overlay').style.display = 'flex';
-    }
-
-    hideLoading() {
-        document.getElementById('loading-overlay').style.display = 'none';
-    }
-
-    showSuccess(message) {
-        this.showNotification(message, 'success');
-    }
-
-    showError(message) {
-        this.showNotification(message, 'error');
-    }
-
-    showNotification(message, type) {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-            <span>${message}</span>
-            <button class="notification-close">&times;</button>
-        `;
-
-        // Add styles if not already present
-        if (!document.querySelector('#notification-styles')) {
-            const styles = document.createElement('style');
-            styles.id = 'notification-styles';
-            styles.textContent = `
-                .notification {
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: white;
-                    padding: 1rem 1.5rem;
-                    border-radius: 8px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                    display: flex;
-                    align-items: center;
-                    gap: 0.75rem;
-                    z-index: 10000;
-                    animation: slideInRight 0.3s ease;
-                    max-width: 400px;
-                }
-                .notification-success {
-                    border-left: 4px solid #10b981;
-                    color: #065f46;
-                }
-                .notification-error {
-                    border-left: 4px solid #ef4444;
-                    color: #991b1b;
-                }
-                .notification-close {
-                    background: none;
-                    border: none;
-                    font-size: 1.2rem;
-                    cursor: pointer;
-                    margin-left: auto;
-                    opacity: 0.7;
-                }
-                .notification-close:hover {
-                    opacity: 1;
-                }
-                @keyframes slideInRight {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-            `;
-            document.head.appendChild(styles);
-        }
-
-        // Add to page
-        document.body.appendChild(notification);
-
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 5000);
-
-        // Manual close
-        notification.querySelector('.notification-close').addEventListener('click', () => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        });
-    }
+    // All other utility methods (apiCall, getToken, logout, showLoading, hideLoading, showSuccess, showError)
+    // are inherited from AdminCommon class
 }
 
 // Initialize payment manager when page loads
