@@ -227,11 +227,12 @@
 
     <!-- Payment Detail Modal -->
     <div id="payment-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Payment Details</h3>
-                <span class="close">&times;</span>
-            </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Payment Details</h3>
+                    <button class="modal-close" onclick="closeModal('payment-modal')">&times;</button>
+                </div>
             <div class="modal-body" id="payment-details">
                 <div class="payment-detail-grid">
                     <div class="detail-section">
@@ -326,18 +327,20 @@
                 <button id="send-receipt-btn" class="btn btn-outline-primary">
                     <i class="fas fa-envelope"></i> Send Receipt
                 </button>
-                <button class="btn btn-secondary modal-close">Close</button>
+                <button class="btn btn-secondary" onclick="closeModal('payment-modal')">Close</button>
+            </div>
             </div>
         </div>
     </div>
 
     <!-- Refund Modal -->
     <div id="refund-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Process Refund</h3>
-                <span class="close">&times;</span>
-            </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Process Refund</h3>
+                    <button class="modal-close" onclick="closeModal('refund-modal')">&times;</button>
+                </div>
             <div class="modal-body">
                 <form id="refund-form">
                     <div class="form-group">
@@ -355,7 +358,8 @@
                 <button id="confirm-refund" class="btn btn-danger">
                     <i class="fas fa-check"></i> Confirm Refund
                 </button>
-                <button class="btn btn-secondary modal-close">Cancel</button>
+                <button class="btn btn-secondary" onclick="closeModal('refund-modal')">Cancel</button>
+            </div>
             </div>
         </div>
     </div>
@@ -368,10 +372,6 @@
         </div>
     </div>
 
-    <script src="/js/users/admin/payments.js"></script>
-
-    <script src="/js/users/admin/admin-common.js"></script>
-    <script src="/js/users/admin/payments.js"></script>
     <script>
         // Wrapper functions to maintain onclick compatibility
         function viewPaymentDetails(id) { paymentsManager.viewPaymentDetails(id); }

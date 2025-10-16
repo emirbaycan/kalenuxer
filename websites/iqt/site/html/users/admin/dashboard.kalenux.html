@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - IQ Test Platform</title>
-    <!-- Base admin styles -->
-    <link rel="stylesheet" href="/css/users/admin/general.css">
-    <!-- Shared admin components (buttons, modals, forms, tables, etc.) -->
-    <link rel="stylesheet" href="/css/users/admin/admin-components.css">
-    <!-- Dashboard-specific styles -->
-    <link rel="stylesheet" href="/css/users/admin/dashboard.css">
-    <!-- Font Awesome icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -509,18 +501,9 @@
             <p>Loading...</p>
         </div>
     </div>
-
-    <!-- Common Admin Scripts -->
-    <script src="/js/users/admin/font-awesome-fallback.js"></script>
-    <script src="/js/users/admin/admin-common.js"></script>
-
     <!-- Chart.js for Dashboard -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Font Awesome Detection (legacy - will be removed) -->
-
-    <script src="/js/users/admin/admin-common.js"></script>
-    <script src="/js/users/admin/dashboard.js"></script>
     <script>
         // Wrapper function to maintain onclick compatibility
         function exportData() { dashboardManager.exportData(); }

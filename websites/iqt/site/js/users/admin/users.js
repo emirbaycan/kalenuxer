@@ -174,11 +174,14 @@ class UsersManager extends AdminCommon {
                 ...this.currentFilters
             });
 
-            const responseData = await this.apiCall(`/admin/users?${params}`);
-            const data = responseData.data || responseData;
+            const response = await this.apiCall(`/admin/users?${params}`);
             
-            this.renderUsers(data.users || data || []);
-            this.updatePagination(data);
+            // API returns { success, data: [...users...], meta: {...pagination...} }
+            const users = response.data || [];
+            const meta = response.meta || {};
+            
+            this.renderUsers(users);
+            this.updatePagination(meta);
             this.currentPage = page;
         } catch (error) {
             console.error('Error loading users:', error);
@@ -197,44 +200,50 @@ class UsersManager extends AdminCommon {
             return;
         }
 
-        tbody.innerHTML = users.map(user => `
+        tbody.innerHTML = users.map(user => {
+            // Map actual User model fields to display fields
+            const username = user.username || user.email?.split('@')[0] || 'unknown';
+            const userType = user.role || user.user_type || 'user';
+            const status = user.status || (user.active ? 'active' : 'inactive');
+            
+            return `
             <tr>
                 <td>
                     <div class="user-info">
-                        <div class="user-avatar">${this.getInitials(user.name || user.username)}</div>
-                        <div>
+                        <div class="user-avatar">${this.getInitials(user.name || username)}</div>
+                        <div class="user-details">
                             <strong>${user.name || 'Unknown'}</strong>
-                            <br><small>@${user.username || 'unknown'}</small>
+                            <small>@${username}</small>
                         </div>
                     </div>
                 </td>
                 <td>${user.email || 'N/A'}</td>
                 <td>
-                    <span class="user-type-badge user-type-${user.user_type}">${this.formatUserType(user.user_type)}</span>
+                    <span class="user-type-badge user-type-${userType}">${this.formatUserType(userType)}</span>
                 </td>
                 <td>
-                    <span class="status-badge status-${user.status}">${user.status || 'unknown'}</span>
+                    <span class="status-badge status-${status}">${status}</span>
                 </td>
                 <td>
-                    <div>
-                        ${user.last_login ? this.formatDate(user.last_login) : 'Never'}
-                        ${user.last_login ? `<br><small>${this.formatTime(user.last_login)}</small>` : ''}
+                    <div class="date-cell">
+                        <span>${user.last_login ? this.formatDate(user.last_login) : 'Never'}</span>
+                        ${user.last_login ? `<small>${this.formatTime(user.last_login)}</small>` : ''}
                     </div>
                 </td>
                 <td>
-                    <div>
-                        ${this.formatDate(user.created_at)}
-                        <br><small>${this.formatTime(user.created_at)}</small>
+                    <div class="date-cell">
+                        <span>${this.formatDate(user.created_at)}</span>
+                        <small>${this.formatTime(user.created_at)}</small>
                     </div>
                 </td>
-                <td>
+                <td class="actions-cell">
                     <button class="action-btn view" onclick="usersManager.viewUserDetails('${user.id}')">
                         <i class="fas fa-eye"></i> View
                     </button>
                     <button class="action-btn edit" onclick="usersManager.editUser('${user.id}')">
                         <i class="fas fa-edit"></i> Edit
                     </button>
-                    ${user.status !== 'suspended' ? `
+                    ${status !== 'suspended' && status !== 'inactive' ? `
                         <button class="action-btn delete" onclick="usersManager.suspendUserById('${user.id}')">
                             <i class="fas fa-ban"></i> Suspend
                         </button>
@@ -245,34 +254,41 @@ class UsersManager extends AdminCommon {
                     `}
                 </td>
             </tr>
-        `).join('');
+        `;
+        }).join('');
     }
 
-    updatePagination(data) {
+    updatePagination(meta) {
         const paginationInfo = document.getElementById('pagination-info');
         const pageNumbers = document.getElementById('page-numbers');
         const prevBtn = document.getElementById('prev-page');
         const nextBtn = document.getElementById('next-page');
         
-        const start = ((data.current_page - 1) * data.per_page) + 1;
-        const end = Math.min(data.current_page * data.per_page, data.total);
+        // Extract pagination data from meta object
+        const total = meta.total || 0;
+        const currentPage = meta.page || 1;
+        const perPage = meta.per_page || 20;
+        const totalPages = meta.total_pages || 1;
+        
+        const start = total === 0 ? 0 : ((currentPage - 1) * perPage) + 1;
+        const end = Math.min(currentPage * perPage, total);
         
         if (paginationInfo) {
-            paginationInfo.textContent = `Showing ${start} - ${end} of ${data.total} users`;
+            paginationInfo.textContent = `Showing ${start} - ${end} of ${total} users`;
         }
         
-        this.totalPages = Math.ceil(data.total / data.per_page);
+        this.totalPages = totalPages;
         
         // Update navigation buttons
-        if (prevBtn) prevBtn.disabled = data.current_page <= 1;
-        if (nextBtn) nextBtn.disabled = data.current_page >= this.totalPages;
+        if (prevBtn) prevBtn.disabled = !meta.has_previous;
+        if (nextBtn) nextBtn.disabled = !meta.has_next;
         
         // Generate page numbers
         if (pageNumbers) {
             pageNumbers.innerHTML = '';
             const maxVisiblePages = 5;
-            let startPage = Math.max(1, data.current_page - Math.floor(maxVisiblePages / 2));
-            let endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
             
             if (endPage - startPage < maxVisiblePages - 1) {
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
@@ -280,7 +296,7 @@ class UsersManager extends AdminCommon {
             
             for (let i = startPage; i <= endPage; i++) {
                 const pageBtn = document.createElement('button');
-                pageBtn.className = `page-number ${i === data.current_page ? 'active' : ''}`;
+                pageBtn.className = `page-number ${i === currentPage ? 'active' : ''}`;
                 pageBtn.textContent = i;
                 pageBtn.onclick = () => this.changePage(i);
                 pageNumbers.appendChild(pageBtn);
@@ -350,28 +366,39 @@ class UsersManager extends AdminCommon {
     }
 
     populateUserDetails(user) {
-        document.getElementById('detail-user-id').textContent = user.id || 'N/A';
-        document.getElementById('detail-name').textContent = user.name || 'N/A';
-        document.getElementById('detail-username').textContent = user.username || 'N/A';
-        document.getElementById('detail-email').textContent = user.email || 'N/A';
-        document.getElementById('detail-phone').textContent = user.phone || 'N/A';
+        // Extract user data - handle both nested data and direct response
+        const userData = user.data || user;
         
-        document.getElementById('detail-status').innerHTML = `<span class="status-badge status-${user.status}">${user.status}</span>`;
-        document.getElementById('detail-user-type').innerHTML = `<span class="user-type-badge user-type-${user.user_type}">${this.formatUserType(user.user_type)}</span>`;
-        document.getElementById('detail-email-verified').textContent = user.email_verified ? 'Yes' : 'No';
-        document.getElementById('detail-last-login').textContent = user.last_login ? this.formatDateTime(user.last_login) : 'Never';
+        // User Information
+        document.getElementById('detail-user-id').textContent = userData.id || 'N/A';
+        document.getElementById('detail-name').textContent = userData.name || 'N/A';
+        document.getElementById('detail-username').textContent = userData.username || userData.email?.split('@')[0] || 'N/A';
+        document.getElementById('detail-email').textContent = userData.email || 'N/A';
+        document.getElementById('detail-phone').textContent = userData.phone || 'N/A';
         
-        document.getElementById('detail-registered').textContent = this.formatDateTime(user.created_at);
-        document.getElementById('detail-updated').textContent = this.formatDateTime(user.updated_at);
+        // Account Status
+        const status = userData.active ? 'active' : 'inactive';
+        document.getElementById('detail-status').innerHTML = `<span class="status-badge status-${status}">${status}</span>`;
         
-        document.getElementById('detail-tests-taken').textContent = user.tests_taken || 0;
-        document.getElementById('detail-avg-score').textContent = user.average_score ? `${user.average_score}/200` : 'N/A';
-        document.getElementById('detail-best-score').textContent = user.best_score ? `${user.best_score}/200` : 'N/A';
+        const role = userData.role || 'user';
+        document.getElementById('detail-user-type').innerHTML = `<span class="user-type-badge user-type-${role}">${role.toUpperCase()}</span>`;
+        
+        document.getElementById('detail-email-verified').textContent = userData.email_verified || userData.active ? 'Yes' : 'No';
+        document.getElementById('detail-last-login').textContent = userData.last_login ? this.formatDateTime(userData.last_login) : 'Never';
+        
+        // Timeline
+        document.getElementById('detail-registered').textContent = this.formatDateTime(userData.created_at);
+        document.getElementById('detail-updated').textContent = this.formatDateTime(userData.updated_at);
+        
+        // Activity
+        document.getElementById('detail-tests-taken').textContent = userData.tests_taken || 0;
+        document.getElementById('detail-avg-score').textContent = userData.average_score ? `${userData.average_score}/200` : 'N/A';
+        document.getElementById('detail-best-score').textContent = userData.best_score ? `${userData.best_score}/200` : 'N/A';
         
         // Show/hide suspend button based on status
         const suspendBtn = document.getElementById('suspend-user-btn');
         if (suspendBtn) {
-            suspendBtn.style.display = user.status !== 'suspended' ? 'inline-flex' : 'none';
+            suspendBtn.style.display = userData.active !== false ? 'inline-flex' : 'none';
         }
     }
 
@@ -409,14 +436,15 @@ class UsersManager extends AdminCommon {
 
     async populateUserForm() {
         try {
-            const user = await this.apiCall(`/admin/users/${this.currentUserId}`);
+            const response = await this.apiCall(`/admin/users/${this.currentUserId}`);
+            const user = response.data || response;
             
             document.getElementById('form-name').value = user.name || '';
-            document.getElementById('form-username').value = user.username || '';
+            document.getElementById('form-username').value = user.username || user.email?.split('@')[0] || '';
             document.getElementById('form-email').value = user.email || '';
             document.getElementById('form-phone').value = user.phone || '';
-            document.getElementById('form-user-type').value = user.user_type || '';
-            document.getElementById('form-status').value = user.status || '';
+            document.getElementById('form-user-type').value = user.role || 'user';
+            document.getElementById('form-status').value = user.active ? 'active' : 'inactive';
         } catch (error) {
             console.error('Error loading user data:', error);
             this.showError('Error loading user data: ' + error.message);
@@ -430,13 +458,12 @@ class UsersManager extends AdminCommon {
             return;
         }
         
+        // Map form fields to actual User model fields
         const userData = {
             name: document.getElementById('form-name').value,
-            username: document.getElementById('form-username').value,
             email: document.getElementById('form-email').value,
-            phone: document.getElementById('form-phone').value,
-            user_type: document.getElementById('form-user-type').value,
-            status: document.getElementById('form-status').value
+            role: document.getElementById('form-user-type').value || 'user',
+            active: document.getElementById('form-status').value === 'active'
         };
         
         const password = document.getElementById('form-password').value;
@@ -550,11 +577,12 @@ class UsersManager extends AdminCommon {
     formatUserType(type) {
         const types = {
             'admin': 'Admin',
+            'user': 'User',
             'premium': 'Premium',
             'basic': 'Basic',
             'free': 'Free'
         };
-        return types[type] || type;
+        return types[type] || type.charAt(0).toUpperCase() + type.slice(1);
     }
 
     // Override logout to clear refresh interval

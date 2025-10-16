@@ -110,10 +110,10 @@ class PaymentManager extends AdminCommon {
             const response = await this.apiCall('/admin/analytics');
             const data = response.data;
 
-            document.getElementById('total-revenue').textContent = this.formatCurrency(data.total_revenue || 0);
-            document.getElementById('total-payments').textContent = data.total_payments || 0;
-            document.getElementById('successful-payments').textContent = data.successful_payments || 0;
-            document.getElementById('failed-payments').textContent = data.failed_payments || 0;
+            document.getElementById('total-revenue').textContent = this.formatCurrency(data.total_revenue?.amount || 0);
+            document.getElementById('total-payments').textContent = data.total_payments?.count || 0;
+            document.getElementById('successful-payments').textContent = data.total_payments?.successful || 0;
+            document.getElementById('failed-payments').textContent = data.total_payments?.failed || 0;
         } catch (error) {
             console.error('Failed to load stats:', error);
             this.showError('Failed to load statistics');

@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management - IQ Test Admin</title>
-    <link rel="stylesheet" href="/css/users/admin/general.css">
-    <link rel="stylesheet" href="/css/users/admin/users.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -234,7 +232,8 @@
 
     <!-- User Detail Modal -->
     <div id="user-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
             <div class="modal-header">
                 <h3>User Details</h3>
                 <span class="close">&times;</span>
@@ -323,12 +322,14 @@
                 </button>
                 <button class="btn btn-secondary modal-close">Close</button>
             </div>
+            </div>
         </div>
     </div>
 
     <!-- Add/Edit User Modal -->
     <div id="user-form-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
             <div class="modal-header">
                 <h3 id="form-modal-title">Add New User</h3>
                 <span class="close">&times;</span>
@@ -384,6 +385,7 @@
                 </button>
                 <button class="btn btn-secondary modal-close">Cancel</button>
             </div>
+            </div>
         </div>
     </div>
 
@@ -395,7 +397,5 @@
         </div>
     </div>
 
-    <script src="/js/users/admin/admin-common.js"></script>
-    <script src="/js/users/admin/users.js"></script>
 </body>
 </html>
